@@ -1,6 +1,6 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page" xmlns:ui="nativescript-modal-datetimepicker" style="margin-top: -20">
     <GridLayout rows="" columns="">
-        <Image src="https://i.pinimg.com/736x/f1/f9/1e/f1f91ed13b684d1c1c4cd5017bae5c5a--vector-landscape-tutorial-vector-art-landscape.jpg" stretch="aspectFill" />
+        <Image src="~/landscape.jpg" stretch="aspectFill" />
         <StackLayout class="p-20">
             <Button text="Pick a Date" tap="{{ selectDate }}" style="margin-top: 100;" class="btn btn-primary btn-active"/>
             <Button text="Pick a Time" tap="{{ selectTime }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
