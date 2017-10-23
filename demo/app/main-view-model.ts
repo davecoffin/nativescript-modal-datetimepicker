@@ -1,14 +1,45 @@
 import { Observable } from 'tns-core-modules/data/observable';
-import { ModalDatetimepicker } from 'nativescript-modal-datetimepicker';
+import { ModalDatetimepicker, PickerOptions } from 'nativescript-modal-datetimepicker';
 
 export class HelloWorldModel extends Observable {
-  public message: string;
-  private modalDatetimepicker: ModalDatetimepicker;
+    public date: string;
+    public time: string;
+    private modalDatetimepicker: ModalDatetimepicker;
 
-  constructor() {
-    super();
+    constructor() {
+        super();
+        this.modalDatetimepicker = new ModalDatetimepicker();
+    }
 
-    this.modalDatetimepicker = new ModalDatetimepicker();
-    this.message = this.modalDatetimepicker.message;
-  }
+    selectDate() {
+        this.modalDatetimepicker.pickDate(<PickerOptions>{
+            title: "Configurable Title",
+            theme: "dark",
+            maxDate: new Date(),
+        }).then((result:any) => {
+            if (result) {
+                this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
+            } else {
+                this.set("date", false);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+    };
+
+    selectTime() {
+        this.modalDatetimepicker.pickTime(<PickerOptions>{
+            theme: "light",
+        }).then((result:any) => {
+            if (result) {
+                this.set("time", "Time is: " + result.hour + ":" + result.minute);
+            } else {
+                this.set("time", false);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+    };
 }

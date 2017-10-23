@@ -1,39 +1,99 @@
-# Your Plugin Name
+# nativescript-modal-datetimepicker [![Build Status](https://travis-ci.org/shiv19/nativescript-material-datetimepicker.svg?branch=master)](https://travis-ci.org/davecoffin/nativescript-modal-datetimepicker) [![npm](https://img.shields.io/npm/dt/express.svg)](https://www.npmjs.com/package/nativescript-modal-datetimepicker) [![npm](https://img.shields.io/npm/v/nativescript-material-datetimepicker.svg)](https://www.npmjs.com/package/nativescript-modal-datetimepicker)
 
-Add your plugin badges here. See [nativescript-urlhandler](https://github.com/hypery2k/nativescript-urlhandler) for example.
+[![Twitter URL](https://img.shields.io/badge/twitter-%40MultiShiv19-blue.svg)](https://twitter.com/MultiShiv19)
 
-Then describe what's the purpose of your plugin. 
 
-In case you develop UI plugin, this is where you can add some screenshots.
+[![NPM](https://nodei.co/npm/nativescript-modal-datetimepicker.png)](https://nodei.co/npm/nativescript-modal-datetimepicker/)
 
-## (Optional) Prerequisites / Requirements
+This plugin is a wrapper around `android.app.DatePickerDialog` for Android, and `UIDatePicker` for iOS.
 
-Describe the prerequisites that the user need to have installed before using your plugin. See [nativescript-firebase plugin](https://github.com/eddyverbruggen/nativescript-plugin-firebase) for example.
+## Android Screenshots
+
+### Date Picker
+<img src="https://github.com/davecoffin/nativescript-modal-datetimepicker/blob/master/assets/datepicker.jpeg?raw=true" height="320" > 
+
+### Time Picker
+<img src="https://github.com/davecoffin/nativescript-modal-datetimepicker/blob/master/assets/timepicker.jpeg?raw=true" height="320" > 
+
+## iOS
+<img src="https://github.com/davecoffin/nativescript-modal-datetimepicker/blob/master/assets/iosdatepicker.gif?raw=true" height="320" > 
 
 ## Installation
 
-Describe your plugin installation steps. Ideally it would be something like:
-
 ```javascript
-tns plugin add <your-plugin-name>
+tns plugin add nativescript-modal-datetimepicker
 ```
 
 ## Usage 
 
-Describe any usage specifics for your plugin. Give examples for Android, iOS, Angular if needed. See [nativescript-drop-down](https://www.npmjs.com/package/nativescript-drop-down) for example.
-	
-	```javascript
-    Usage code snippets here
-    ```)
+NativeScript Core
+
+```js
+
+const ModalPicker = require("nativescript-modal-datetimepicker").ModalDatetimepicker;
+
+const picker = new ModalPicker();
+
+// Pick Date
+exports.selectDate = function() {
+    picker.pickDate({
+        title: "Select Your Birthday",
+        theme: "light",
+        maxDate: new Date()
+    }).then((result) => {
+        console.log("Date is: " + result.day + "-" + result.month + "-" + result.year);
+    }).catch((error) => {
+        console.log("Error: " + error);
+    });
+};
+
+// Pick Time
+exports.selectTime = function() {
+    picker.pickTime()
+        .then((result) => {
+            console.log("Time is: " + result.hour + ":" + result.minute);
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+};
+
+```
 
 ## API
 
-Describe your plugin methods and properties here. See [nativescript-feedback](https://github.com/EddyVerbruggen/nativescript-feedback) for example.
-    
-| Property | Default | Description |
-| --- | --- | --- |
-| some property | property default value | property description, default values, etc.. |
-| another property | property default value | property description, default values, etc.. |
+`pickDate(options): Promise<{}>;`
+
+Returns a promise that resolves to date object
+```js
+date: {
+    day: number,
+    month: number,
+    year: number
+}
+```
+
+`pickTime(options): Promise<{}>;`
+
+Returns a promise that resolves to time object
+```js
+time: {
+    hour: number,
+    minute: number
+}
+```
+
+options conform to the following interface: 
+```
+export interface PickerOptions {
+    title?: string, // iOS ONLY: The title to display above the picker, defaults to "Choose A Time" or "Choose A Date"
+    theme?: string, // iOS ONLY: light for a light blurry effect, dark for a dark blurry effect - defaults to dark
+    maxDate?: Date,
+    minDate?: Date,
+    startingDate?: Date
+}
+```
+
     
 ## License
 

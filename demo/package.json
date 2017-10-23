@@ -9,9 +9,9 @@
     }
   },
   "dependencies": {
+    "nativescript-modal-datetimepicker": "../src",
     "nativescript-theme-core": "^1.0.4",
     "nativescript-unit-test-runner": "^0.3.4",
-    "nativescript-modal-datetimepicker": "../src",
     "tns-core-modules": "^3.1.1"
   },
   "devDependencies": {
