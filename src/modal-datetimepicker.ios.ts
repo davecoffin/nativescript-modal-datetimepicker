@@ -1,12 +1,7 @@
 import * as application from "tns-core-modules/application";
 import * as frame from "tns-core-modules/ui/frame";
 import { Label } from "tns-core-modules/ui/label/";
-
-declare var UIBlurEffectStyleDark, UIBlurEffectStyleLight;
-declare var UIViewAutoresizingFlexibleWidth;
-declare var UIViewAutoresizingFlexibleHeight;
-declare var UIViewAutoresizingFlexibleTopMargin;
-
+import { Page } from "tns-core-modules/ui/page";
 
 
 class ButtonHandler extends NSObject {
@@ -53,6 +48,8 @@ let effectView: UIVisualEffectView; // this view blurs the background
 let pickerHolderView: UIView; // this is the view that holds the picker
 let bottomContentContainer: UIView; // this view holds the picker and the action buttons.
 let topContentContainer: UIView; // this is the view the holds the title.
+let titleLabel: UILabel;
+let minMaxLabel: UILabel;
 let datePickerView: UIDatePicker;
 
 export class ModalDatetimepicker {
@@ -86,27 +83,28 @@ export class ModalDatetimepicker {
                 reject('startingDate must be a Date.');
             }
             if (options.minDate && typeof options.minDate.getMonth != 'function') {
-                reject('startingDate must be a Date.');
+                reject('minDate must be a Date.');
             }
             if (options.maxDate && typeof options.maxDate.getMonth != 'function') {
-                reject('startingDate must be a Date.');
+                reject('maxDate must be a Date.');
             }
-            window = UIApplication.sharedApplication.keyWindow;
+            window = UIApplication.sharedApplication.keyWindow;            
             let containerBounds = window.bounds;
     
             // blur the background of the application.
             effectView = UIVisualEffectView.alloc().init();
             effectView.frame = CGRectMake(containerBounds.origin.x, containerBounds.origin.y, containerBounds.size.width, containerBounds.size.height + 20);
-            effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            effectView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
             window.addSubview(effectView);
             window.bringSubviewToFront(effectView);
             UIView.animateWithDurationAnimations(0.4, () => {
-                effectView.effect = UIBlurEffect.effectWithStyle(options.theme == 'light' ? UIBlurEffectStyleLight : UIBlurEffectStyleDark);
+                effectView.effect = UIBlurEffect.effectWithStyle(options.theme == 'light' ? UIBlurEffectStyle.Light : UIBlurEffectStyle.Dark);
             })
     
             bottomContentContainer = UIView.alloc().init();
             bottomContentContainer.frame = CGRectMake(10, containerBounds.size.height - 320, containerBounds.size.width - 20, 310);
-            bottomContentContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+            bottomContentContainer.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleWidth;
+            bottomContentContainer.autoresizesSubviews = true;
             bottomContentContainer.transform = CGAffineTransformMakeTranslation(0, 320);
     
             pickerHolderView = UIView.alloc().init();
@@ -114,23 +112,29 @@ export class ModalDatetimepicker {
             pickerHolderView.frame = CGRectMake(0, 0, containerBounds.size.width - 20, 270);
             pickerHolderView.layer.cornerRadius = 10;
             pickerHolderView.layer.masksToBounds = true;
-            pickerHolderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            pickerHolderView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
             pickerHolderView.layer.masksToBounds = false;
             pickerHolderView.layer.shadowColor = UIColor.blackColor.CGColor;
             pickerHolderView.layer.shadowOffset = CGSizeMake(2.0, 2.0);
             pickerHolderView.layer.shadowOpacity = 0.5;
             pickerHolderView.layer.shadowRadius = 8;
-            pickerHolderView.layer.shadowPath = UIBezierPath.bezierPathWithRect(pickerHolderView.bounds).CGPath;
+            pickerHolderView.layer.shadowPath = UIBezierPath.bezierPathWithRect(pickerHolderView.bounds).CGPath; 
     
+
+            let buttonContainer: UIView = UIView.alloc().initWithFrame(CGRectMake(0, 270, containerBounds.size.width - 20, 40))
+            buttonContainer.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+            buttonContainer.autoresizesSubviews = true;
+
             let cancelButton: UIButton = UIButton.buttonWithType(UIButtonType.System);
             cancelButton.setTitleForState('Cancel', UIControlState.Normal);
             cancelButton.addTargetActionForControlEvents(buttonHandler, "close", UIControlEvents.TouchUpInside);
-            cancelButton.frame = CGRectMake(0, 270, ((containerBounds.size.width - 20)/2), 40);
+            cancelButton.frame = CGRectMake(0, 0, ((buttonContainer.bounds.size.width)/2), 40);
             cancelButton.setTitleColorForState(UIColor.whiteColor, UIControlState.Normal);
             cancelButton.titleLabel.font = UIFont.systemFontOfSize(18);
-            bottomContentContainer.addSubview(cancelButton);
-            bottomContentContainer.bringSubviewToFront(cancelButton);
-            
+            cancelButton.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+            buttonContainer.addSubview(cancelButton);
+            buttonContainer.bringSubviewToFront(cancelButton);
+
             let doneButton: UIButton = UIButton.buttonWithType(UIButtonType.System);
             doneButton.setTitleForState('Done', UIControlState.Normal);
             if (options.type == 'date') {
@@ -139,16 +143,20 @@ export class ModalDatetimepicker {
                 doneButton.addTargetActionForControlEvents(buttonHandler, "chooseTime", UIControlEvents.TouchUpInside);
             }
             
-            doneButton.frame = CGRectMake(((containerBounds.size.width - 20)/2), 270, ((containerBounds.size.width - 20)/2), 40);
+            doneButton.frame = CGRectMake(((buttonContainer.bounds.size.width)/2), 0, ((buttonContainer.bounds.size.width)/2), 40);
             doneButton.setTitleColorForState(UIColor.colorWithRedGreenBlueAlpha(0, 153, 255, 1), UIControlState.Normal);
             doneButton.titleLabel.font = UIFont.boldSystemFontOfSize(18);
-            bottomContentContainer.addSubview(doneButton);
-            bottomContentContainer.bringSubviewToFront(doneButton);
+            doneButton.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+            buttonContainer.addSubview(doneButton);
+            buttonContainer.bringSubviewToFront(doneButton);
+
+            bottomContentContainer.addSubview(buttonContainer);
+            bottomContentContainer.bringSubviewToFront(buttonContainer);
     
             
-            datePickerView = UIDatePicker.alloc().initWithFrame(CGRectMake(0, 0, containerBounds.size.width - 20, 270));
+            datePickerView = UIDatePicker.alloc().initWithFrame(CGRectMake(0, 0, containerBounds.size.width - 20, 250));
             datePickerView.datePickerMode = (options.type == 'date' ? UIDatePickerMode.Date : UIDatePickerMode.Time);
-            datePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            datePickerView.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
             if (options.startingDate) datePickerView.date = options.startingDate;
             if (options.minDate) datePickerView.minimumDate = options.minDate;
             if (options.maxDate) datePickerView.maximumDate = options.maxDate;
@@ -157,48 +165,28 @@ export class ModalDatetimepicker {
             
             bottomContentContainer.addSubview(pickerHolderView);
             bottomContentContainer.bringSubviewToFront(pickerHolderView);
-    
-            topContentContainer = UIView.alloc().init();
-            topContentContainer.frame = CGRectMake(10, 50, containerBounds.size.width - 20, 200);
 
-            let titleLabel = this.labelFactory(options.title, UIColor.whiteColor, true, 30)
-            titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping;
-            titleLabel.numberOfLines = 5;
+            titleLabel = this.labelFactory(options.title, UIColor.whiteColor, true, 25);
             titleLabel.textAlignment = NSTextAlignment.Center;
-            titleLabel.frame = CGRectMake(0, 0, containerBounds.size.width - 20, 200);
+            titleLabel.frame = CGRectMake(0, 20, containerBounds.size.width, containerBounds.size.height - 360);
 
-            topContentContainer.addSubview(titleLabel);
-            topContentContainer.bringSubviewToFront(titleLabel);
+            titleLabel.transform = CGAffineTransformMakeScale(.8, .8)
+            titleLabel.adjustsFontForContentSizeCategory = true;
+            titleLabel.adjustsFontSizeToFitWidth = true;
+            titleLabel.layer.masksToBounds = false;
+            titleLabel.alpha = 0;
+            titleLabel.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleWidth;
 
-            if (options.minDate) {
-                let minDateText = 'Minimum date: ' + (options.minDate.getMonth() + 1) + '/' + options.minDate.getDate() + '/' + options.minDate.getFullYear();
-                let minDateLabel = this.labelFactory(minDateText, UIColor.whiteColor, false, 14)
-                minDateLabel.frame = CGRectMake(10, 230, containerBounds.size.width - 20, 40);
-                topContentContainer.addSubview(minDateLabel);
-                topContentContainer.bringSubviewToFront(minDateLabel);
-            }
-            if (options.maxDate) {
-                let maxDateText = 'Maximum date: ' + (options.maxDate.getMonth() + 1) + '/' + options.maxDate.getDate() + '/' + options.maxDate.getFullYear();
-                let maxDateLabel = this.labelFactory(maxDateText, UIColor.whiteColor, false, 14)
-                maxDateLabel.frame = CGRectMake(10, 250, containerBounds.size.width - 20, 40);
-                topContentContainer.addSubview(maxDateLabel);
-                topContentContainer.bringSubviewToFront(maxDateLabel);
-            }
-    
-            topContentContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-            
-            topContentContainer.transform = CGAffineTransformMakeScale(.8, .8)
-            topContentContainer.alpha = 0;
-            window.addSubview(topContentContainer);
-            window.bringSubviewToFront(topContentContainer);
+            window.addSubview(titleLabel);
+            window.bringSubviewToFront(titleLabel);
     
             window.addSubview(bottomContentContainer);
             window.bringSubviewToFront(bottomContentContainer);
             let animationOptions: UIViewAnimationOptions;
             UIView.animateWithDurationDelayOptionsAnimationsCompletion(0.4, 0, UIViewAnimationOptions.CurveEaseOut, () => {
                 bottomContentContainer.transform = CGAffineTransformMakeTranslation(0, 0);
-                topContentContainer.transform = CGAffineTransformMakeScale(1, 1)
-                topContentContainer.alpha = 1;
+                titleLabel.transform = CGAffineTransformMakeScale(1, 1)
+                titleLabel.alpha = 1;
             }, () => {
                 console.dir('animation completed');
             })
@@ -247,12 +235,12 @@ export class ModalDatetimepicker {
         UIView.animateWithDurationAnimationsCompletion(0.3, () => {
             effectView.effect = null;
             bottomContentContainer.transform = CGAffineTransformMakeTranslation(0, 320);
-            topContentContainer.transform = CGAffineTransformMakeScale(.8, .8)
-            topContentContainer.alpha = 0;
+            titleLabel.transform = CGAffineTransformMakeScale(.8, .8)
+            titleLabel.alpha = 0;
         }, () => {
             effectView.removeFromSuperview();
             bottomContentContainer.removeFromSuperview();
-            topContentContainer.removeFromSuperview();
+            titleLabel.removeFromSuperview();
             myResolve(response);
         })
     }

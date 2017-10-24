@@ -15,6 +15,7 @@ export class HelloWorldModel extends Observable {
         this.modalDatetimepicker.pickDate(<PickerOptions>{
             title: "Configurable Title",
             theme: "dark",
+            startingDate: new Date('2017-10-01'),
             maxDate: new Date(),
         }).then((result:any) => {
             if (result) {
