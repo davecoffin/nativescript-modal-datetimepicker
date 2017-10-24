@@ -5,6 +5,15 @@ export interface PickerOptions {
     maxDate?: Date;
     minDate?: Date;
     startingDate?: Date;
+    is24HourView: boolean;
+    maxTime?: {
+        hour: number;
+        minute: number;
+    };
+    minTime?: {
+        hour: number;
+        minute: number;
+    };
 }
 export interface PickerResponse {
     day?: number;

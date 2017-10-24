@@ -8,6 +8,13 @@
         "platforms": {
             "android": "3.0.0",
             "ios": "3.0.0"
+        },
+        "plugin": {
+            "nan": "true",
+            "pan": "true",
+            "vue": "true",
+            "core3": "true",
+            "category": "Interface"
         }
     },
     "scripts": {
@@ -31,7 +38,16 @@
         "NativeScript",
         "JavaScript",
         "Android",
-        "iOS"
+        "iOS",
+        "material datepicker",
+        "material timepicker",
+        "nativescript datepicker",
+        "nativescript timepicker",
+        "ecosystem:nativescript",
+        "davecoffin",
+        "multishiv19",
+        "datetimepicker",
+        "datetime picker"
     ],
     "author": {
         "name": "Dave Coffin",
@@ -39,11 +55,15 @@
     },
     "contributors": [
         {
-            "name": "Shiv19",
+            "name": "MultiShiv19",
             "email": "sp@shiv19.com",
             "url": "shiv19.com"
         }
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker"
+    },
     "bugs": {
         "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker/issues"
     },

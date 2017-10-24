@@ -29,69 +29,6 @@ export interface PickerResponse {
     minute?: number
 }
 
-class RangeTimePickerDialog extends android.app.TimePickerDialog {
-  private mMinHour = -1;
-  private mMinMinute = -1;
-  private mMaxHour = 100;
-  private mMaxMinute = 100;
-  private mCurrentHour;
-  private mCurrentMinute;
-
-  constructor(context, callBack, hourOfDay, 
-   minute, is24HourView) {
-    super(context, callBack, hourOfDay, minute, is24HourView);
-
-    this.mCurrentHour = hourOfDay;
-    this.mCurrentMinute = minute;
-
-    console.log("in the constructor");
-
-    // Somehow the onTimeChangedListener is not set by TimePickerDialog
-    // in some Android Versions, so, Adding the listener using
-    // reflections
-    try {
-      console.log("start of try block");
-      let superclass = this.getClass().getSuperclass();
-      let mTimePickerField: java.lang.reflect.Field = superclass.getDeclaredField("mTimePicker");
-      mTimePickerField.setAccessible(true);
-      let mTimePicker: android.widget.TimePicker = <android.widget.TimePicker> mTimePickerField.get(this);
-      mTimePicker.setOnTimeChangedListener(this);
-      console.log("end of try block");
-    } catch (e) {
-    }
-  }
-
-  public setMin(hour, minute) {
-    console.log("set the min time");
-    this.mMinHour = hour;
-    this.mMinMinute = minute;
-  }
-
-  public setMax(hour, minute) {
-    console.log("set the max time");
-    this.mMaxHour = hour;
-    this.mMaxMinute = minute;
-  }
-
-  public onTimeChanged(view, hourOfDay, minute) {
-      super.onTimeChanged(view, hourOfDay, minute);
-      console.log("Time change triggered");
-      let validTime;
-      if (((hourOfDay < this.mMinHour ) || (hourOfDay == this.mMinHour && minute < this.mMinMinute)) 
-              || ((hourOfDay > this.mMaxHour) || (hourOfDay == this.mMaxHour && minute > this.mMaxMinute))) {
-          validTime = false;
-      } else {
-          validTime = true;
-      }
-      if (validTime) {
-          this.mCurrentHour = hourOfDay;
-          this.mCurrentMinute = minute;
-      } else {
-          this.updateTime(this.mCurrentHour, this.mCurrentMinute);
-      }
-  }
-}
-
 export class ModalDatetimepicker {
     constructor() {}
 
@@ -142,8 +79,8 @@ export class ModalDatetimepicker {
         return new Promise((resolve, reject) => {
           let now = Calendar.getInstance();
           try {
-            let timePicker = new RangeTimePickerDialog(app.android.foregroundActivity,
-              new RangeTimePickerDialog.OnTimeSetListener({
+            let timePicker = new android.app.TimePickerDialog(app.android.foregroundActivity,
+              new android.app.TimePickerDialog.OnTimeSetListener({
                   onTimeSet: function(view, hourOfDay, minute) {
                       const time = {
                         "hour": hourOfDay,
@@ -153,13 +90,43 @@ export class ModalDatetimepicker {
                   }
               }), now.get(Calendar.HOUR_OF_DAY),
                   now.get(Calendar.MINUTE), options.is24HourView);
-
-            if (options.maxTime || options.minTime) {
-              if (options.maxTime) timePicker.setMax(options.maxTime.hour, options.maxTime.minute);
-              if (options.minTime) timePicker.setMin(options.maxTime.hour, options.maxTime.minute);
-            }
-
+            
             timePicker.show();
+
+            if (options.minTime) {
+              if (options.minTime.hour && options.minTime.minute){
+                if (options.minTime.hour < 24 && options.minTime.hour >= 0
+                    && options.minTime.minute < 60 && options.minTime.minute >= 0) {
+                      timePicker.updateTime(options.minTime.hour, options.minTime.minute);
+                      android.widget.Toast.makeText(app.android.foregroundActivity, "Minimum Time: " + 
+                        options.minTime.hour + ":" + options.minTime.minute, 
+                        android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                      reject('Invalid minTime');
+                    }
+              } else {
+                reject('Both Hour and Minute have to be provided for minTime');
+              }
+            }
+            
+            if (options.maxTime) {
+              if (options.maxTime.hour && options.maxTime.minute){
+                if (options.maxTime.hour < 24 && options.maxTime.hour >= 0
+                    && options.maxTime.minute < 60 && options.maxTime.minute >= 0) {
+                      timePicker.updateTime(options.maxTime.hour, options.maxTime.minute);
+                      android.widget.Toast.makeText(app.android.foregroundActivity, "Maximum Time: " + 
+                        options.maxTime.hour + ":" + options.maxTime.minute, 
+                        android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                      reject('Invalid maxTime');
+                    }
+              } else {
+                reject('Both Hour and Minute have to be provided for maxTime');
+              }
+            }
+            
+            timePicker.updateTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE);
+            
           } catch (err) {
             reject(err);
           }
