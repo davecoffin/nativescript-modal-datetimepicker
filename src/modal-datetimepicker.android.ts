@@ -44,33 +44,38 @@ class RangeTimePickerDialog extends android.app.TimePickerDialog {
     this.mCurrentHour = hourOfDay;
     this.mCurrentMinute = minute;
 
+    console.log("in the constructor");
+
     // Somehow the onTimeChangedListener is not set by TimePickerDialog
     // in some Android Versions, so, Adding the listener using
     // reflections
     try {
+      console.log("start of try block");
       let superclass = this.getClass().getSuperclass();
       let mTimePickerField: java.lang.reflect.Field = superclass.getDeclaredField("mTimePicker");
       mTimePickerField.setAccessible(true);
       let mTimePicker: android.widget.TimePicker = <android.widget.TimePicker> mTimePickerField.get(this);
       mTimePicker.setOnTimeChangedListener(this);
+      console.log("end of try block");
     } catch (e) {
     }
   }
 
   public setMin(hour, minute) {
+    console.log("set the min time");
     this.mMinHour = hour;
     this.mMinMinute = minute;
   }
 
   public setMax(hour, minute) {
+    console.log("set the max time");
     this.mMaxHour = hour;
     this.mMaxMinute = minute;
   }
 
-  @Override
   public onTimeChanged(view, hourOfDay, minute) {
       super.onTimeChanged(view, hourOfDay, minute);
-
+      console.log("Time change triggered");
       let validTime;
       if (((hourOfDay < this.mMinHour ) || (hourOfDay == this.mMinHour && minute < this.mMinMinute)) 
               || ((hourOfDay > this.mMaxHour) || (hourOfDay == this.mMaxHour && minute > this.mMaxMinute))) {

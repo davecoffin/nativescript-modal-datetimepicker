@@ -37,6 +37,13 @@
         "name": "Dave Coffin",
         "email": "dave@davecoffin.com"
     },
+    "contributors": [
+        {
+            "name": "Shiv19",
+            "email": "sp@shiv19.com",
+            "url": "shiv19.com"
+        }
+    ],
     "bugs": {
         "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker/issues"
     },
