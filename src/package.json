@@ -1,7 +1,7 @@
 {
     "name": "nativescript-modal-datetimepicker",
     "version": "1.0.0",
-    "description": "Your awesome NativeScript plugin.",
+    "description": "A nice looking modal date time picker.",
     "main": "modal-datetimepicker",
     "typings": "index.d.ts",
     "nativescript": {
