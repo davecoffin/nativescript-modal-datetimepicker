@@ -4,13 +4,21 @@ declare var com: any;
 const Calendar = java.util.Calendar;
 
 export interface PickerOptions {
-    type?: string,
-    title?: string,
-    theme?: string,
-    maxDate?: Date,
-    minDate?: Date,
-    startingDate?: Date,
-    is24HourView: boolean
+    type?: string;
+    title?: string;
+    theme?: string;
+    maxDate?: Date;
+    minDate?: Date;
+    startingDate?: Date;
+    is24HourView: boolean;
+    maxTime?: {
+        hour: number,
+        minute: number
+    },
+    minTime?: {
+        hour: number,
+        minute: number
+    }
 }
 
 export interface PickerResponse {
@@ -19,6 +27,64 @@ export interface PickerResponse {
     year?: number,
     hour?: number,
     minute?: number
+}
+
+class RangeTimePickerDialog extends android.app.TimePickerDialog {
+  private mMinHour = -1;
+  private mMinMinute = -1;
+  private mMaxHour = 100;
+  private mMaxMinute = 100;
+  private mCurrentHour;
+  private mCurrentMinute;
+
+  constructor(context, callBack, hourOfDay, 
+   minute, is24HourView) {
+    super(context, callBack, hourOfDay, minute, is24HourView);
+
+    this.mCurrentHour = hourOfDay;
+    this.mCurrentMinute = minute;
+
+    // Somehow the onTimeChangedListener is not set by TimePickerDialog
+    // in some Android Versions, so, Adding the listener using
+    // reflections
+    try {
+      let superclass = this.getClass().getSuperclass();
+      let mTimePickerField: java.lang.reflect.Field = superclass.getDeclaredField("mTimePicker");
+      mTimePickerField.setAccessible(true);
+      let mTimePicker: android.widget.TimePicker = <android.widget.TimePicker> mTimePickerField.get(this);
+      mTimePicker.setOnTimeChangedListener(this);
+    } catch (e) {
+    }
+  }
+
+  public setMin(hour, minute) {
+    this.mMinHour = hour;
+    this.mMinMinute = minute;
+  }
+
+  public setMax(hour, minute) {
+    this.mMaxHour = hour;
+    this.mMaxMinute = minute;
+  }
+
+  @Override
+  public onTimeChanged(view, hourOfDay, minute) {
+      super.onTimeChanged(view, hourOfDay, minute);
+
+      let validTime;
+      if (((hourOfDay < this.mMinHour ) || (hourOfDay == this.mMinHour && minute < this.mMinMinute)) 
+              || ((hourOfDay > this.mMaxHour) || (hourOfDay == this.mMaxHour && minute > this.mMaxMinute))) {
+          validTime = false;
+      } else {
+          validTime = true;
+      }
+      if (validTime) {
+          this.mCurrentHour = hourOfDay;
+          this.mCurrentMinute = minute;
+      } else {
+          this.updateTime(this.mCurrentHour, this.mCurrentMinute);
+      }
+  }
 }
 
 export class ModalDatetimepicker {
@@ -52,14 +118,13 @@ export class ModalDatetimepicker {
               }), startDate.getFullYear(),
                   startDate.getMonth(),
                   startDate.getDate());
-            
+
             if (options.maxDate || options.minDate) {
                 let datePickerInstance = datePicker.getDatePicker();
                 if (options.maxDate) datePickerInstance.setMaxDate(options.maxDate.getTime());
                 if (options.minDate) datePickerInstance.setMinDate(options.minDate.getTime());
             }
-            
-            
+
             datePicker.show();
           } catch (err) {
             reject(err);
@@ -72,8 +137,8 @@ export class ModalDatetimepicker {
         return new Promise((resolve, reject) => {
           let now = Calendar.getInstance();
           try {
-            let timePicker = new android.app.TimePickerDialog(app.android.foregroundActivity,
-              new android.app.TimePickerDialog.OnTimeSetListener({
+            let timePicker = new RangeTimePickerDialog(app.android.foregroundActivity,
+              new RangeTimePickerDialog.OnTimeSetListener({
                   onTimeSet: function(view, hourOfDay, minute) {
                       const time = {
                         "hour": hourOfDay,
@@ -83,6 +148,12 @@ export class ModalDatetimepicker {
                   }
               }), now.get(Calendar.HOUR_OF_DAY),
                   now.get(Calendar.MINUTE), options.is24HourView);
+
+            if (options.maxTime || options.minTime) {
+              if (options.maxTime) timePicker.setMax(options.maxTime.hour, options.maxTime.minute);
+              if (options.minTime) timePicker.setMin(options.maxTime.hour, options.maxTime.minute);
+            }
+
             timePicker.show();
           } catch (err) {
             reject(err);

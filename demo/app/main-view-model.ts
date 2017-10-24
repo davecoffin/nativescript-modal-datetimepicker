@@ -17,6 +17,7 @@ export class HelloWorldModel extends Observable {
             theme: "dark",
             startingDate: new Date('2017-10-01'),
             maxDate: new Date(),
+            minDate: new Date('2017-09-19')
         }).then((result:any) => {
             if (result) {
                 this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
@@ -32,6 +33,14 @@ export class HelloWorldModel extends Observable {
     selectTime() {
         this.modalDatetimepicker.pickTime(<PickerOptions>{
             theme: "light",
+            minTime: {
+                hour: 7,
+                minute: 30
+            },
+            maxTime: {
+                hour: 15,
+                minute: 30
+            }
         }).then((result:any) => {
             if (result) {
                 this.set("time", "Time is: " + result.hour + ":" + result.minute);
