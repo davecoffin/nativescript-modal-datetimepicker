@@ -35,7 +35,7 @@ export class HelloWorldModel extends Observable {
             theme: "light",
             minTime: {
                 hour: 7,
-                minute: 30
+                minute: 0
             },
             maxTime: {
                 hour: 15,
