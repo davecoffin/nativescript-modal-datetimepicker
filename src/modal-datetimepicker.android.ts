@@ -94,35 +94,27 @@ export class ModalDatetimepicker {
             timePicker.show();
 
             if (options.minTime) {
-              if (options.minTime.hour && options.minTime.minute){
-                if (options.minTime.hour < 24 && options.minTime.hour >= 0
-                    && options.minTime.minute < 60 && options.minTime.minute >= 0) {
-                      timePicker.updateTime(options.minTime.hour, options.minTime.minute);
-                      android.widget.Toast.makeText(app.android.foregroundActivity, "Minimum Time: " + 
-                        options.minTime.hour + ":" + options.minTime.minute, 
-                        android.widget.Toast.LENGTH_SHORT).show();
-                    } else {
-                      reject('Invalid minTime');
-                    }
-              } else {
-                reject('Both Hour and Minute have to be provided for minTime');
-              }
+              if (options.minTime.hour < 24 && options.minTime.hour >= 0
+                  && options.minTime.minute < 60 && options.minTime.minute >= 0) {
+                    timePicker.updateTime(options.minTime.hour, options.minTime.minute);
+                    android.widget.Toast.makeText(app.android.foregroundActivity, "Minimum Time: " + 
+                      options.minTime.hour + ":" + options.minTime.minute, 
+                      android.widget.Toast.LENGTH_SHORT).show();
+                  } else {
+                    reject('Invalid minTime');
+                  }
             }
             
             if (options.maxTime) {
-              if (options.maxTime.hour && options.maxTime.minute){
-                if (options.maxTime.hour < 24 && options.maxTime.hour >= 0
-                    && options.maxTime.minute < 60 && options.maxTime.minute >= 0) {
-                      timePicker.updateTime(options.maxTime.hour, options.maxTime.minute);
-                      android.widget.Toast.makeText(app.android.foregroundActivity, "Maximum Time: " + 
-                        options.maxTime.hour + ":" + options.maxTime.minute, 
-                        android.widget.Toast.LENGTH_SHORT).show();
-                    } else {
-                      reject('Invalid maxTime');
-                    }
-              } else {
-                reject('Both Hour and Minute have to be provided for maxTime');
-              }
+              if (options.maxTime.hour < 24 && options.maxTime.hour >= 0
+                  && options.maxTime.minute < 60 && options.maxTime.minute >= 0) {
+                    timePicker.updateTime(options.maxTime.hour, options.maxTime.minute);
+                    android.widget.Toast.makeText(app.android.foregroundActivity, "Maximum Time: " + 
+                      options.maxTime.hour + ":" + options.maxTime.minute, 
+                      android.widget.Toast.LENGTH_SHORT).show();
+                  } else {
+                    reject('Invalid maxTime');
+                  }
             }
             
             timePicker.updateTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE);
