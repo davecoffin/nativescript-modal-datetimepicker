@@ -26,6 +26,24 @@ tns plugin add nativescript-modal-datetimepicker
 
 ## Configuration 
 
+For android, the clock style can be `clock` or `spinner`
+For android, the calendar style can be `calendar` or `spinner`
+
+This can be changed in `App_Resources/Android/values-21/styles.xml`
+```xml
+<!-- Default style for DatePicker - in spinner mode -->
+<style name="SpinnerDatePicker" parent="android:Widget.Material.Light.DatePicker">
+    <item name="android:datePickerMode">calendar</item>
+</style>
+
+<!-- Default style for TimePicker - in spinner mode -->
+<style name="SpinnerTimePicker" parent="android:Widget.Material.Light.TimePicker">
+    <item name="android:timePickerMode">clock</item>
+</style>
+```
+
+## Usage
+
 NativeScript Core
 
 ```js
