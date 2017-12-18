@@ -24,7 +24,7 @@ This plugin is a wrapper around `android.app.DatePickerDialog` for Android, and 
 tns plugin add nativescript-modal-datetimepicker
 ```
 
-## Usage 
+## Configuration 
 
 NativeScript Core
 
