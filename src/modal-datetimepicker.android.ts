@@ -93,6 +93,12 @@ export class ModalDatetimepicker {
     options.is24HourView = options.is24HourView || false;
     return new Promise((resolve, reject) => {
       let now = Calendar.getInstance();
+      const hour = options.startingHour
+        ? +options.startingHour
+        : now.get(Calendar.HOUR_OF_DAY);
+      const minute = options.startingMinute
+        ? +options.startingMinute
+        : now.get(Calendar.MINUTE);
       try {
         let timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
@@ -105,8 +111,8 @@ export class ModalDatetimepicker {
               resolve(time);
             }
           }),
-          now.get(Calendar.HOUR_OF_DAY),
-          now.get(Calendar.MINUTE),
+          hour,
+          minute,
           options.is24HourView
         );
 
