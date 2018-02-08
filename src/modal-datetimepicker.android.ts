@@ -159,8 +159,6 @@ export class ModalDatetimepicker {
             reject("Invalid maxTime");
           }
         }
-
-        timePicker.updateTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE);
       } catch (err) {
         reject(err);
       }
