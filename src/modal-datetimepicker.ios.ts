@@ -277,7 +277,7 @@ export class ModalDatetimepicker {
           titleLabel.alpha = 1;
         },
         () => {
-          console.dir("animation completed");
+          //   console.dir("animation completed");
         }
       );
     });
