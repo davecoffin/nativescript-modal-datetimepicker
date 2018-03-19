@@ -102,13 +102,15 @@ time: {
 ```
 
 options conform to the following interface: 
-```
+```ts
 export interface PickerOptions {
     title?: string, // iOS ONLY: The title to display above the picker, defaults to "Choose A Time" or "Choose A Date"
     theme?: string, // iOS ONLY: light for a light blurry effect, dark for a dark blurry effect - defaults to dark
     maxDate?: Date,
     minDate?: Date,
-    startingDate?: Date
+    startingHour?: number, // Ignored on pickDate()
+    startingMinute?: number, // Ignored on pickDate()
+    startingDate?: Date // Ignored on pickTime()
 }
 ```
 
