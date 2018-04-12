@@ -96,7 +96,7 @@ export class ModalDatetimepicker {
                 ) {
                     reject("startingDate must be a Date.");
                 }
-                else {
+                else if (options.startingDate) {
                   startingDate = options.startingDate;
                 }
             } else {
