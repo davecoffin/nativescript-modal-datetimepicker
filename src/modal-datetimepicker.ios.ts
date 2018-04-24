@@ -190,7 +190,7 @@ export class ModalDatetimepicker {
             let cancelButton: UIButton = UIButton.buttonWithType(
                 UIButtonType.System
             );
-            cancelButton.setTitleForState("Cancel", UIControlState.Normal);
+            cancelButton.setTitleForState(options.cancelLabel || "Cancel", UIControlState.Normal);
             cancelButton.addTargetActionForControlEvents(
                 buttonHandler,
                 "close",
@@ -214,7 +214,7 @@ export class ModalDatetimepicker {
             let doneButton: UIButton = UIButton.buttonWithType(
                 UIButtonType.System
             );
-            doneButton.setTitleForState("Done", UIControlState.Normal);
+            doneButton.setTitleForState(options.doneLabel || "Done", UIControlState.Normal);
             if (options.type === "date") {
                 doneButton.addTargetActionForControlEvents(
                     buttonHandler,
