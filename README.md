@@ -61,7 +61,7 @@ exports.selectDate = function() {
     }).then((result) => {
         // Note the month is 1-12 (unlike js which is 0-11)
         console.log("Date is: " + result.day + "-" + result.month + "-" + result.year);
-        var jsdate = new Date(result.year, result.month + 1, result.day);
+        var jsdate = new Date(result.year, result.month - 1, result.day);
     }).catch((error) => {
         console.log("Error: " + error);
     });
