@@ -16,6 +16,8 @@ export interface PickerOptions {
     hour: number;
     minute: number;
   };
+  cancelLabel?: string;
+  doneLabel?: string;
 }
 export interface PickerResponse {
   day?: number;
