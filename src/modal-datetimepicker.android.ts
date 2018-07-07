@@ -102,8 +102,13 @@ export class ModalDatetimepicker {
         ? +options.startingMinute
         : now.get(Calendar.MINUTE);
       try {
+        let themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
+        if (options.theme && options.theme === "dark") {
+          themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
+        }
         let timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
+          themeId,
           new android.app.TimePickerDialog.OnTimeSetListener({
             onTimeSet: function(view, hourOfDay, minute) {
               const time = {
