@@ -238,7 +238,7 @@ export class ModalDatetimepicker {
                 40
             );
             doneButton.setTitleColorForState(
-                UIColor.colorWithRedGreenBlueAlpha(0, 153, 255, 1),
+                UIColor.colorWithRedGreenBlueAlpha(0, .6, 1, 1),
                 UIControlState.Normal
             );
             doneButton.titleLabel.font = UIFont.boldSystemFontOfSize(18);
