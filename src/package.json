@@ -1,88 +1,104 @@
 {
-    "name": "nativescript-modal-datetimepicker",
-    "version": "1.1.4",
-    "description": "A nice looking modal date time picker.",
-    "main": "modal-datetimepicker",
-    "typings": "index.d.ts",
-    "nativescript": {
-        "platforms": {
-            "android": "3.0.0",
-            "ios": "3.0.0"
-        },
-        "plugin": {
-            "nan": "true",
-            "pan": "true",
-            "vue": "true",
-            "core3": "true",
-            "category": "Interface"
-        }
+  "name": "nativescript-modal-datetimepicker",
+  "version": "1.1.4",
+  "description": "A nice looking modal date time picker.",
+  "main": "modal-datetimepicker",
+  "typings": "index.d.ts",
+  "nativescript": {
+    "platforms": {
+      "android": "3.0.0",
+      "ios": "3.0.0"
     },
-    "scripts": {
-        "tsc": "tsc -skipLibCheck",
-        "build": "npm i && tsc",
-        "postclone": "npm i && node scripts/postclone.js && cd ../demo && npm i && cd ../src && npm run plugin.link",
-        "test.android": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build android && tns test android --justlaunch",
-        "test.ios": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build ios && tns test ios --justlaunch",
-        "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-        "plugin.link": "npm link && cd ../demo && npm link nativescript-modal-datetimepicker && cd ../src",
-        "plugin.tscwatch": "npm run tsc -- -w",
-        "debug.ios": "npm i && npm run tsc && cd ../demo && tns debug ios --syncAllFiles",
-        "demo.ios": "npm i && npm run tsc && cd ../demo && tns run ios --syncAllFiles",
-        "demo.android": "npm i && npm run tsc && cd ../demo && tns run android --syncAllFiles",
-        "demo.reset": "cd ../demo && rimraf platforms",
-        "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-modal-datetimepicker && tns plugin add ../src",
-        "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
-        "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'"
+    "plugin": {
+      "nan": "true",
+      "pan": "true",
+      "vue": "true",
+      "core3": "true",
+      "category": "Interface"
+    }
+  },
+  "scripts": {
+    "tsc": "tsc -skipLibCheck",
+    "build": "npm i && tsc",
+    "postclone": "npm i && node scripts/postclone.js && cd ../demo && npm i && cd ../src && npm run plugin.link",
+    "test.android": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build android && tns test android --justlaunch",
+    "test.ios": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build ios && tns test ios --justlaunch",
+    "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
+    "plugin.link": "npm link && cd ../demo && npm link nativescript-modal-datetimepicker && cd ../src",
+    "plugin.tscwatch": "npm run tsc -- -w",
+    "debug.ios": "npm i && npm run tsc && cd ../demo && tns debug ios --syncAllFiles",
+    "demo.ios": "npm i && npm run tsc && cd ../demo && tns run ios --syncAllFiles",
+    "demo.android": "npm i && npm run tsc && cd ../demo && tns run android --syncAllFiles",
+    "demo.reset": "cd ../demo && rimraf platforms",
+    "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-modal-datetimepicker && tns plugin add ../src",
+    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "NativeScript",
+    "JavaScript",
+    "Android",
+    "iOS",
+    "material datepicker",
+    "material timepicker",
+    "nativescript datepicker",
+    "nativescript timepicker",
+    "ecosystem:nativescript",
+    "davecoffin",
+    "multishiv19",
+    "datetimepicker",
+    "datetime picker"
+  ],
+  "author": {
+    "name": "Dave Coffin",
+    "email": "dave@davecoffin.com"
+  },
+  "contributors": [
+    {
+      "name": "MultiShiv19",
+      "email": "sp@shiv19.com",
+      "url": "https://shiv19.com"
     },
-    "keywords": [
-        "NativeScript",
-        "JavaScript",
-        "Android",
-        "iOS",
-        "material datepicker",
-        "material timepicker",
-        "nativescript datepicker",
-        "nativescript timepicker",
-        "ecosystem:nativescript",
-        "davecoffin",
-        "multishiv19",
-        "datetimepicker",
-        "datetime picker"
-    ],
-    "author": {
-        "name": "Dave Coffin",
-        "email": "dave@davecoffin.com"
+    {
+      "name": "Jeremiah Ogbomo",
+      "email": "jeremiahogbomo@gmail.com",
+      "url": "https://github.com/jogboms"
     },
-    "contributors": [
-        {
-            "name": "MultiShiv19",
-            "email": "sp@shiv19.com",
-            "url": "https://shiv19.com"
-        },
-        {
-            "name": "Jeremiah Ogbomo",
-            "email": "jeremiahogbomo@gmail.com",
-            "url": "https://github.com/jogboms"
-        }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker"
-    },
-    "bugs": {
-        "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker/issues"
-    },
-    "license": "Apache-2.0",
-    "homepage": "https://github.com/davecoffin/nativescript-modal-datetimepicker",
-    "readmeFilename": "README.md",
-    "devDependencies": {
-        "tns-core-modules": "^3.1.0",
-        "tns-platform-declarations": "^3.1.0",
-        "typescript": "~2.3.0",
-        "prompt": "^1.0.0",
-        "rimraf": "^2.5.0",
-        "tslint": "^5.0.0"
-    },
-    "dependencies": {},
-    "bootstrapper": "nativescript-plugin-seed"
+    {
+      "name": "Brad Martin",
+      "email": "bradwaynemartin@gmail.com",
+      "url": "https://github.com/bradmartin"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker"
+  },
+  "bugs": {
+    "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker/issues"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/davecoffin/nativescript-modal-datetimepicker",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.4",
+    "prettier": "^1.13.2",
+    "tns-core-modules": "^3.1.0",
+    "tns-platform-declarations": "^3.1.0",
+    "typescript": "~2.3.0",
+    "prompt": "^1.0.0",
+    "rimraf": "^2.5.0",
+    "tslint": "^5.0.0",
+    "semver": "^5.5.0"
+  },
+  "dependencies": {},
+  "bootstrapper": "nativescript-plugin-seed"
 }
