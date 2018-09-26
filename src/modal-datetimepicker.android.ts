@@ -1,37 +1,5 @@
 import * as app from "tns-core-modules/application";
 
-const Calendar = java.util.Calendar;
-
-export interface PickerOptions {
-  type?: string;
-  title?: string;
-  theme?: string;
-  maxDate?: Date;
-  minDate?: Date;
-  startingDate?: Date;
-  startingHour?: number;
-  startingMinute?: number;
-  is24HourView: boolean;
-  maxTime?: {
-    hour: number;
-    minute: number;
-  };
-  minTime?: {
-    hour: number;
-    minute: number;
-  };
-  cancelLabel?: string;
-  doneLabel?: string;
-}
-
-export interface PickerResponse {
-  day?: number;
-  month?: number;
-  year?: number;
-  hour?: number;
-  minute?: number;
-}
-
 export class ModalDatetimepicker {
   constructor() {}
 
@@ -53,7 +21,7 @@ export class ModalDatetimepicker {
       // let now = Calendar.getInstance();
       let startDate = new Date();
       if (options.startingDate) startDate = options.startingDate;
-      
+
       try {
         let themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
         if (options.theme && options.theme === "dark") {
@@ -64,7 +32,7 @@ export class ModalDatetimepicker {
           themeId,
           new android.app.DatePickerDialog.OnDateSetListener({
             onDateSet: (view, year, monthOfYear, dayOfMonth) => {
-              const date = {
+              const date: DateResponse = {
                 day: dayOfMonth,
                 month: ++monthOfYear,
                 year: year
@@ -95,19 +63,19 @@ export class ModalDatetimepicker {
   public pickTime(options?: PickerOptions) {
     options.is24HourView = options.is24HourView || false;
     return new Promise((resolve, reject) => {
-      let now = Calendar.getInstance();
+      let now = java.util.Calendar.getInstance();
       const hour = options.startingHour
         ? +options.startingHour
-        : now.get(Calendar.HOUR_OF_DAY);
+        : now.get(java.util.Calendar.HOUR_OF_DAY);
       const minute = options.startingMinute
         ? +options.startingMinute
-        : now.get(Calendar.MINUTE);
+        : now.get(java.util.Calendar.MINUTE);
       try {
         const timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
           new android.app.TimePickerDialog.OnTimeSetListener({
             onTimeSet: (view, hourOfDay, minute) => {
-              const time = {
+              const time: TimeResponse = {
                 hour: hourOfDay,
                 minute: minute
               };
@@ -167,4 +135,37 @@ export class ModalDatetimepicker {
       }
     });
   }
+}
+
+export interface PickerOptions {
+  type?: string;
+  title?: string;
+  theme?: string;
+  maxDate?: Date;
+  minDate?: Date;
+  startingDate?: Date;
+  startingHour?: number;
+  startingMinute?: number;
+  is24HourView: boolean;
+  maxTime?: {
+    hour: number;
+    minute: number;
+  };
+  minTime?: {
+    hour: number;
+    minute: number;
+  };
+  cancelLabel?: string;
+  doneLabel?: string;
+}
+
+export interface TimeResponse {
+  hour: number;
+  minute: number;
+}
+
+export interface DateResponse {
+  day: number;
+  month: number;
+  year: number;
 }

@@ -31,29 +31,8 @@ class ButtonHandler extends NSObject {
   };
 }
 const buttonHandler = ButtonHandler.new();
+
 let myResolve;
-
-export interface PickerOptions {
-  type?: string;
-  title?: string;
-  theme?: string;
-  maxDate?: Date;
-  minDate?: Date;
-  startingDate?: Date;
-  startingHour?: number;
-  startingMinute?: number;
-  cancelLabel?: string;
-  doneLabel?: string;
-}
-
-export interface PickerResponse {
-  day?: number;
-  month?: number;
-  year?: number;
-  hour?: number;
-  minute?: number;
-}
-
 let window: UIWindow;
 let effectView: UIVisualEffectView; // this view blurs the background
 let pickerHolderView: UIView; // this is the view that holds the picker
@@ -179,7 +158,9 @@ export class ModalDatetimepicker {
       buttonContainer.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
       buttonContainer.autoresizesSubviews = true;
 
-      const cancelButton: UIButton = UIButton.buttonWithType(UIButtonType.System);
+      const cancelButton: UIButton = UIButton.buttonWithType(
+        UIButtonType.System
+      );
       cancelButton.setTitleForState(
         options.cancelLabel || "Cancel",
         UIControlState.Normal
@@ -285,7 +266,7 @@ export class ModalDatetimepicker {
 
       window.addSubview(bottomContentContainer);
       window.bringSubviewToFront(bottomContentContainer);
-    //   let animationOptions: UIViewAnimationOptions;
+      //   let animationOptions: UIViewAnimationOptions;
       UIView.animateWithDurationDelayOptionsAnimationsCompletion(
         0.4,
         0,
@@ -325,7 +306,7 @@ export class ModalDatetimepicker {
 
   public chooseDate() {
     const pickedDate = new Date(datePickerView.date);
-    const response: PickerResponse = {
+    const response: DateResponse = {
       day: pickedDate.getDate(),
       month: pickedDate.getMonth() + 1,
       year: pickedDate.getFullYear()
@@ -335,7 +316,7 @@ export class ModalDatetimepicker {
 
   public chooseTime() {
     const pickedDate = new Date(datePickerView.date);
-    const response: PickerResponse = {
+    const response: TimeResponse = {
       hour: pickedDate.getHours(),
       minute: pickedDate.getMinutes()
     };
@@ -366,3 +347,27 @@ export class ModalDatetimepicker {
 }
 
 const picker = new ModalDatetimepicker();
+
+export interface PickerOptions {
+  type?: string;
+  title?: string;
+  theme?: string;
+  maxDate?: Date;
+  minDate?: Date;
+  startingDate?: Date;
+  startingHour?: number;
+  startingMinute?: number;
+  cancelLabel?: string;
+  doneLabel?: string;
+}
+
+export interface TimeResponse {
+  hour: number;
+  minute: number;
+}
+
+export interface DateResponse {
+  day: number;
+  month: number;
+  year: number;
+}
