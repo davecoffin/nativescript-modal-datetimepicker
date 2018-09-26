@@ -1,3 +1,13 @@
+export declare class ModalDatetimepicker {
+  constructor();
+  pickDate(options?: PickerOptions): Promise<DateResponse>;
+  pickTime(options?: PickerOptions): Promise<TimeResponse>;
+  private show(options);
+  chooseDate(): void;
+  chooseTime(): void;
+  close(response?: any): void;
+}
+
 export interface PickerOptions {
   type?: string;
   title?: string;
@@ -19,19 +29,14 @@ export interface PickerOptions {
   cancelLabel?: string;
   doneLabel?: string;
 }
-export interface PickerResponse {
-  day?: number;
-  month?: number;
-  year?: number;
-  hour?: number;
-  minute?: number;
+
+export interface TimeResponse {
+  hour: number;
+  minute: number;
 }
-export declare class ModalDatetimepicker {
-  constructor();
-  pickDate(options?: PickerOptions): Promise<{}>;
-  pickTime(options?: PickerOptions): Promise<{}>;
-  private show(options);
-  chooseDate(): void;
-  chooseTime(): void;
-  close(response?: any): void;
+
+export interface DateResponse {
+  day: number;
+  month: number;
+  year: number;
 }
