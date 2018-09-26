@@ -1,6 +1,5 @@
 import * as app from "tns-core-modules/application";
 
-declare var com: any;
 const Calendar = java.util.Calendar;
 
 export interface PickerOptions {
@@ -50,9 +49,11 @@ export class ModalDatetimepicker {
       if (options.maxDate && typeof options.maxDate.getMonth !== "function") {
         reject("maxDate must be a Date.");
       }
+
       // let now = Calendar.getInstance();
       let startDate = new Date();
       if (options.startingDate) startDate = options.startingDate;
+      
       try {
         let themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
         if (options.theme && options.theme === "dark") {
@@ -62,7 +63,7 @@ export class ModalDatetimepicker {
           app.android.foregroundActivity,
           themeId,
           new android.app.DatePickerDialog.OnDateSetListener({
-            onDateSet: function(view, year, monthOfYear, dayOfMonth) {
+            onDateSet: (view, year, monthOfYear, dayOfMonth) => {
               const date = {
                 day: dayOfMonth,
                 month: ++monthOfYear,
@@ -102,10 +103,10 @@ export class ModalDatetimepicker {
         ? +options.startingMinute
         : now.get(Calendar.MINUTE);
       try {
-        let timePicker = new android.app.TimePickerDialog(
+        const timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
           new android.app.TimePickerDialog.OnTimeSetListener({
-            onTimeSet: function(view, hourOfDay, minute) {
+            onTimeSet: (view, hourOfDay, minute) => {
               const time = {
                 hour: hourOfDay,
                 minute: minute
