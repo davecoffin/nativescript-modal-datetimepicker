@@ -28,8 +28,8 @@ export interface PickerResponse {
 }
 export declare class ModalDatetimepicker {
   constructor();
-  pickDate(options?: PickerOptions): Promise<{}>;
-  pickTime(options?: PickerOptions): Promise<{}>;
+  pickDate(options?: PickerOptions): Promise<PickerResponse>;
+  pickTime(options?: PickerOptions): Promise<PickerResponse>;
   private show(options);
   chooseDate(): void;
   chooseTime(): void;
