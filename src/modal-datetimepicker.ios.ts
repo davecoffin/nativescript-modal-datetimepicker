@@ -80,10 +80,10 @@ export class ModalDatetimepicker {
           startingDate = options.startingDate;
         }
       } else {
-        if (options.startingHour) {
+        if (options.startingHour !== undefined && options.startingHour >= 0) {
           startingDate.setHours(options.startingHour);
         }
-        if (options.startingMinute) {
+        if (options.startingMinute !== undefined && options.startingMinute >= 0) {
           startingDate.setMinutes(options.startingMinute);
         }
       }
