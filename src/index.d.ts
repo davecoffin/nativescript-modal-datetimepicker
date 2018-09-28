@@ -17,7 +17,7 @@ export interface PickerOptions {
   startingDate?: Date;
   startingHour?: number;
   startingMinute?: number;
-  is24HourView: boolean;
+  is24HourView?: boolean;
   maxTime?: {
     hour: number;
     minute: number;

@@ -3,7 +3,7 @@ import * as app from "tns-core-modules/application";
 export class ModalDatetimepicker {
   constructor() {}
 
-  public pickDate(options?: PickerOptions) {
+  public pickDate(options: PickerOptions = {}) {
     return new Promise((resolve, reject) => {
       if (
         options.startingDate &&
@@ -60,7 +60,7 @@ export class ModalDatetimepicker {
     });
   }
 
-  public pickTime(options?: PickerOptions) {
+  public pickTime(options: PickerOptions = {}) {
     options.is24HourView = options.is24HourView || false;
     return new Promise((resolve, reject) => {
       let now = java.util.Calendar.getInstance();
@@ -146,7 +146,7 @@ export interface PickerOptions {
   startingDate?: Date;
   startingHour?: number;
   startingMinute?: number;
-  is24HourView: boolean;
+  is24HourView?: boolean;
   maxTime?: {
     hour: number;
     minute: number;

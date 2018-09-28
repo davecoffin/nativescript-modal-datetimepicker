@@ -45,18 +45,18 @@ let datePickerView: UIDatePicker;
 export class ModalDatetimepicker {
   constructor() {}
 
-  public pickDate(options?: PickerOptions) {
+  public pickDate(options: PickerOptions = {}) {
     if (!options) options = {};
     options.type = "date";
     return this.show(options);
   }
-  public pickTime(options?: PickerOptions) {
+  public pickTime(options: PickerOptions = {}) {
     if (!options) options = {};
     options.type = "time";
     return this.show(options);
   }
 
-  private show(options: PickerOptions) {
+  private show(options: PickerOptions = {}) {
     return new Promise((resolve, reject) => {
       myResolve = resolve;
       if (!options.type) options.type = "date";
