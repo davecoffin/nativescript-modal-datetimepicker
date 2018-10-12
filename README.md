@@ -121,6 +121,8 @@ export interface PickerOptions {
   theme?: string; // iOS ONLY: light for a light blurry effect, dark for a dark blurry effect - defaults to dark
   maxDate?: Date;
   minDate?: Date;
+  cancelLabel?: string;
+  doneLabel?: string;
   startingHour?: number; // Ignored on pickDate()
   startingMinute?: number; // Ignored on pickDate()
   startingDate?: Date; // Ignored on pickTime()
