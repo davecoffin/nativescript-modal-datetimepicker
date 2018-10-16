@@ -18,7 +18,7 @@ export class HelloWorldModel extends Observable {
             startingDate: new Date('2017-10-01'),
             maxDate: new Date(),
             minDate: new Date('2017-09-19')
-        }).then((result:any) => {
+        }).then((result: any) => {
             if (result) {
                 this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
             } else {
@@ -28,7 +28,7 @@ export class HelloWorldModel extends Observable {
         .catch((error) => {
             console.log("Error: " + error);
         });
-    };
+    }
 
     selectTime() {
         this.modalDatetimepicker.pickTime(<PickerOptions>{
@@ -41,7 +41,7 @@ export class HelloWorldModel extends Observable {
                 hour: 15,
                 minute: 30
             }
-        }).then((result:any) => {
+        }).then((result: any) => {
             if (result) {
                 this.set("time", "Time is: " + result.hour + ":" + result.minute);
             } else {
@@ -51,5 +51,5 @@ export class HelloWorldModel extends Observable {
         .catch((error) => {
             console.log("Error: " + error);
         });
-    };
+    }
 }

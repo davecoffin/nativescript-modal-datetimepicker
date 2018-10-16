@@ -117,8 +117,8 @@ options conform to the following interface:
 
 ```ts
 export interface PickerOptions {
-  title?: string; // iOS ONLY: The title to display above the picker, defaults to "Choose A Time" or "Choose A Date"
-  theme?: string; // iOS ONLY: light for a light blurry effect, dark for a dark blurry effect - defaults to dark
+  title?: string; // iOS ONLY: The title to display above the picker, default hidden.
+  theme?: string; // iOS ONLY: avalible options: none, extralight, light, regular, dark, extradark and prominent.
   maxDate?: Date;
   minDate?: Date;
   startingHour?: number; // Ignored on pickDate()
