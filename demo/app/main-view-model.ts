@@ -14,10 +14,28 @@ export class HelloWorldModel extends Observable {
     selectDate() {
         this.modalDatetimepicker.pickDate(<PickerOptions>{
             title: "Configurable Title",
-            theme: "dark",
-            startingDate: new Date('2017-10-01'),
+            theme: "light",
+            startingDate: new Date('2018-11-17'),
             maxDate: new Date(),
-            minDate: new Date('2017-09-19')
+            minDate: new Date('2018-09-19')
+        }).then((result:any) => {
+            if (result) {
+                this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
+            } else {
+                this.set("date", false);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+    };
+
+    selectDateSpinner() {
+        this.modalDatetimepicker.pickDate(<PickerOptions>{
+            title: "Configurable Title",
+            theme: "light",
+            startingDate: new Date('2018-11-17'),
+            datePickerMode: "spinner"
         }).then((result:any) => {
             if (result) {
                 this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);

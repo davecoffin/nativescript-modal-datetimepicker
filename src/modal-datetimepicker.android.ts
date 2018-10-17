@@ -27,6 +27,14 @@ export class ModalDatetimepicker {
         if (options.theme && options.theme === "dark") {
           themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
         }
+
+        if (options.datePickerMode && options.datePickerMode === "spinner") {
+          themeId = android.app.AlertDialog.THEME_HOLO_LIGHT;
+          if (options.theme && options.theme === "dark") {
+            themeId = android.app.AlertDialog.THEME_HOLO_DARK;
+          }
+        }
+
         let datePicker = new android.app.DatePickerDialog(
           app.android.foregroundActivity,
           themeId,
@@ -64,12 +72,14 @@ export class ModalDatetimepicker {
     options.is24HourView = options.is24HourView || false;
     return new Promise((resolve, reject) => {
       let now = java.util.Calendar.getInstance();
-      const hour = (options.startingHour !== undefined && options.startingHour >= 0)
-      ? +options.startingHour
-      : now.get(java.util.Calendar.HOUR_OF_DAY);
-      const minute = (options.startingMinute !== undefined && options.startingMinute >= 0)
-      ? +options.startingMinute
-      : now.get(java.util.Calendar.MINUTE);
+      const hour =
+        options.startingHour !== undefined && options.startingHour >= 0
+          ? +options.startingHour
+          : now.get(java.util.Calendar.HOUR_OF_DAY);
+      const minute =
+        options.startingMinute !== undefined && options.startingMinute >= 0
+          ? +options.startingMinute
+          : now.get(java.util.Calendar.MINUTE);
       try {
         const timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
@@ -157,6 +167,7 @@ export interface PickerOptions {
   };
   cancelLabel?: string;
   doneLabel?: string;
+  datePickerMode?: string;
 }
 
 export interface TimeResponse {

@@ -124,6 +124,7 @@ export interface PickerOptions {
   startingHour?: number; // Ignored on pickDate()
   startingMinute?: number; // Ignored on pickDate()
   startingDate?: Date; // Ignored on pickTime()
+  datePickerMode?: string; // Android ONLY: set this to "spinner" to see spinner for DatePicker, other option is "calendar" (which is the default)
 }
 ```
 

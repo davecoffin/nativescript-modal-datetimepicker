@@ -28,6 +28,7 @@ export interface PickerOptions {
   };
   cancelLabel?: string;
   doneLabel?: string;
+  datePickerMode?: string;
 }
 
 export interface TimeResponse {
