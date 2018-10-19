@@ -61,13 +61,6 @@ export class ModalDatetimepicker {
       myResolve = resolve;
       if (!options.type) options.type = "date";
       if (!options.theme) options.theme = "dark";
-      if (!options.title) {
-        if (options.type === "date") {
-          options.title = "Choose A Date";
-        } else {
-          options.title = "Choose A Time";
-        }
-      }
 
       let startingDate = new Date();
       if (options.type === "date") {
@@ -83,7 +76,10 @@ export class ModalDatetimepicker {
         if (options.startingHour !== undefined && options.startingHour >= 0) {
           startingDate.setHours(options.startingHour);
         }
-        if (options.startingMinute !== undefined && options.startingMinute >= 0) {
+        if (
+          options.startingMinute !== undefined &&
+          options.startingMinute >= 0
+        ) {
           startingDate.setMinutes(options.startingMinute);
         }
       }
@@ -109,11 +105,37 @@ export class ModalDatetimepicker {
       window.addSubview(effectView);
       window.bringSubviewToFront(effectView);
       UIView.animateWithDurationAnimations(0.4, () => {
-        effectView.effect = UIBlurEffect.effectWithStyle(
-          options.theme === "light"
-            ? UIBlurEffectStyle.Light
-            : UIBlurEffectStyle.Dark
-        );
+        let theme = UIBlurEffectStyle.Light;
+        switch (options.theme) {
+          case "extralight":
+            theme = UIBlurEffectStyle.ExtraLight;
+            break;
+          case "light":
+            theme = UIBlurEffectStyle.Light;
+            break;
+          case "regular":
+            theme = UIBlurEffectStyle.Regular;
+            break;
+          case "dark":
+            theme = UIBlurEffectStyle.Dark;
+            break;
+          case "extradark":
+            theme = UIBlurEffectStyle.ExtraDark;
+            break;
+          case "prominent":
+            theme = UIBlurEffectStyle.Prominent;
+            break;
+          default:
+            theme = UIBlurEffectStyle.Light;
+            break;
+        }
+
+        // dont display if theme is none
+        if (options.theme !== "none") {
+          effectView.effect = UIBlurEffect.effectWithStyle(theme);
+        } else {
+          effectView.effect = null;
+        }
       });
 
       bottomContentContainer = UIView.alloc().init();
@@ -237,32 +259,34 @@ export class ModalDatetimepicker {
       bottomContentContainer.addSubview(pickerHolderView);
       bottomContentContainer.bringSubviewToFront(pickerHolderView);
 
-      titleLabel = this.labelFactory(
-        options.title,
-        UIColor.whiteColor,
-        true,
-        25
-      );
-      titleLabel.textAlignment = NSTextAlignment.Center;
-      titleLabel.frame = CGRectMake(
-        0,
-        20,
-        containerBounds.size.width,
-        containerBounds.size.height - 360
-      );
+      // Only if title is set
+      if (options.title) {
+        titleLabel = this.labelFactory(
+          options.title,
+          UIColor.whiteColor,
+          true,
+          25
+        );
+        titleLabel.textAlignment = NSTextAlignment.Center;
+        titleLabel.frame = CGRectMake(
+          0,
+          20,
+          containerBounds.size.width,
+          containerBounds.size.height - 360
+        );
 
-      titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
-      titleLabel.adjustsFontForContentSizeCategory = true;
-      titleLabel.adjustsFontSizeToFitWidth = true;
-      titleLabel.layer.masksToBounds = false;
-      titleLabel.alpha = 0;
-      titleLabel.autoresizingMask =
-        UIViewAutoresizing.FlexibleHeight |
-        UIViewAutoresizing.FlexibleTopMargin |
-        UIViewAutoresizing.FlexibleWidth;
-
-      window.addSubview(titleLabel);
-      window.bringSubviewToFront(titleLabel);
+        titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        titleLabel.adjustsFontForContentSizeCategory = true;
+        titleLabel.adjustsFontSizeToFitWidth = true;
+        titleLabel.layer.masksToBounds = false;
+        titleLabel.alpha = 0;
+        titleLabel.autoresizingMask =
+          UIViewAutoresizing.FlexibleHeight |
+          UIViewAutoresizing.FlexibleTopMargin |
+          UIViewAutoresizing.FlexibleWidth;
+        window.addSubview(titleLabel);
+        window.bringSubviewToFront(titleLabel);
+      }
 
       window.addSubview(bottomContentContainer);
       window.bringSubviewToFront(bottomContentContainer);
@@ -276,8 +300,12 @@ export class ModalDatetimepicker {
             0,
             0
           );
-          titleLabel.transform = CGAffineTransformMakeScale(1, 1);
-          titleLabel.alpha = 1;
+
+          // Only if title is set
+          if (options.title) {
+            titleLabel.transform = CGAffineTransformMakeScale(1, 1);
+            titleLabel.alpha = 1;
+          }
         },
         () => {
           //   console.dir("animation completed");
