@@ -361,13 +361,17 @@ export class ModalDatetimepicker {
           0,
           320
         );
-        titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        titleLabel.alpha = 0;
+        if (titleLabel) {
+          titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
+          titleLabel.alpha = 0;
+        }
       },
       () => {
         effectView.removeFromSuperview();
         bottomContentContainer.removeFromSuperview();
-        titleLabel.removeFromSuperview();
+        if (titleLabel) {
+          titleLabel.removeFromSuperview();
+        }
         myResolve(response);
       }
     );
