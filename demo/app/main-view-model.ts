@@ -11,6 +11,30 @@ export class HelloWorldModel extends Observable {
         this.modalDatetimepicker = new ModalDatetimepicker();
     }
 
+    closeProgramatically() {
+        this.modalDatetimepicker.pickDate(<PickerOptions>{
+            title: "Configurable Title",
+            theme: "light",
+            startingDate: new Date('2018-11-17'),
+            maxDate: new Date(),
+
+            minDate: new Date('2018-09-19')
+        }).then((result:any) => {
+            if (result) {
+                this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
+            } else {
+                this.set("date", false);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+
+        setTimeout(() => {
+            this.modalDatetimepicker.close();
+        }, 1000);
+    }
+
     selectDate() {
         this.modalDatetimepicker.pickDate(<PickerOptions>{
             title: "Configurable Title",

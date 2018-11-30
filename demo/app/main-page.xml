@@ -5,6 +5,7 @@
             <Button text="Pick a Date" tap="{{ selectDate }}" style="margin-top: 100;" class="btn btn-primary btn-active"/>
             <Button text="Pick a Date (spinner mode)" tap="{{ selectDateSpinner }}" style="margin-top: 20;" class="btn btn-primary btn-active"/>
             <Button text="Pick a Time" tap="{{ selectTime }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
+            <Button text="Close programatically" tap="{{ closeProgramatically }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
             <Label visibility="{{ date ? 'visible' : 'collapsed' }}" text="{{date}}" style="color: white; text-align: center; font-size: 20; font-weight: bold;" />
             <Label visibility="{{ time ? 'visible' : 'collapsed' }}" text="{{time}}" style="color: white; text-align: center; font-size: 20; font-weight: bold;" />
         </StackLayout>    

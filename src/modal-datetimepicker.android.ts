@@ -1,6 +1,8 @@
 import * as app from "tns-core-modules/application";
 
 export class ModalDatetimepicker {
+  datePicker;
+  timePicker;
   constructor() {}
 
   public pickDate(options: PickerOptions = {}) {
@@ -35,7 +37,7 @@ export class ModalDatetimepicker {
           }
         }
 
-        let datePicker = new android.app.DatePickerDialog(
+        this.datePicker = new android.app.DatePickerDialog(
           app.android.foregroundActivity,
           themeId,
           new android.app.DatePickerDialog.OnDateSetListener({
@@ -54,18 +56,29 @@ export class ModalDatetimepicker {
         );
 
         if (options.maxDate || options.minDate) {
-          let datePickerInstance = datePicker.getDatePicker();
+          let datePickerInstance = this.datePicker.getDatePicker();
           if (options.maxDate)
             datePickerInstance.setMaxDate(options.maxDate.getTime());
           if (options.minDate)
             datePickerInstance.setMinDate(options.minDate.getTime());
         }
 
-        datePicker.show();
+        this.datePicker.show();
       } catch (err) {
         reject(err);
       }
     });
+  }
+
+  public close() {
+    if (this.datePicker && typeof this.datePicker.dismiss === "function") {
+      this.datePicker.dismiss();
+    } else if (
+      this.timePicker &&
+      typeof this.timePicker.dismiss === "function"
+    ) {
+      this.timePicker.dismiss();
+    }
   }
 
   public pickTime(options: PickerOptions = {}) {
@@ -81,7 +94,7 @@ export class ModalDatetimepicker {
           ? +options.startingMinute
           : now.get(java.util.Calendar.MINUTE);
       try {
-        const timePicker = new android.app.TimePickerDialog(
+        this.timePicker = new android.app.TimePickerDialog(
           app.android.foregroundActivity,
           new android.app.TimePickerDialog.OnTimeSetListener({
             onTimeSet: (view, hourOfDay, minute) => {
@@ -97,7 +110,7 @@ export class ModalDatetimepicker {
           options.is24HourView
         );
 
-        timePicker.show();
+        this.timePicker.show();
 
         if (options.minTime) {
           if (
@@ -106,7 +119,10 @@ export class ModalDatetimepicker {
             options.minTime.minute < 60 &&
             options.minTime.minute >= 0
           ) {
-            timePicker.updateTime(options.minTime.hour, options.minTime.minute);
+            this.timePicker.updateTime(
+              options.minTime.hour,
+              options.minTime.minute
+            );
             android.widget.Toast.makeText(
               app.android.foregroundActivity,
               "Minimum Time: " +
@@ -127,7 +143,10 @@ export class ModalDatetimepicker {
             options.maxTime.minute < 60 &&
             options.maxTime.minute >= 0
           ) {
-            timePicker.updateTime(options.maxTime.hour, options.maxTime.minute);
+            this.timePicker.updateTime(
+              options.maxTime.hour,
+              options.maxTime.minute
+            );
             android.widget.Toast.makeText(
               app.android.foregroundActivity,
               "Maximum Time: " +

@@ -113,6 +113,10 @@ time: {
 }
 ```
 
+`close(): void;`
+
+Closes any open picker.
+
 options conform to the following interface:
 
 ```ts
