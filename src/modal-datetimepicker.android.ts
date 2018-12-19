@@ -1,7 +1,7 @@
 import * as app from "tns-core-modules/application";
 
 export class ModalDatetimepicker {
-  datePicker;
+  datePicker: android.app.DatePickerDialog;
   timePicker;
   constructor() {}
 
@@ -25,7 +25,7 @@ export class ModalDatetimepicker {
       if (options.startingDate) startDate = options.startingDate;
 
       try {
-        let themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
+        let themeId = 0;
         if (options.theme && options.theme === "dark") {
           themeId = android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
         }
