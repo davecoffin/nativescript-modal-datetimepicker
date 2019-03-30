@@ -12,6 +12,7 @@ export interface PickerOptions {
   type?: string;
   title?: string;
   theme?: string;
+  overlayAlpha?: number;
   maxDate?: Date;
   minDate?: Date;
   startingDate?: Date;

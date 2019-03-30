@@ -17,7 +17,6 @@ export class HelloWorldModel extends Observable {
             theme: "light",
             startingDate: new Date('2018-11-17'),
             maxDate: new Date(),
-
             minDate: new Date('2018-09-19')
         }).then((result:any) => {
             if (result) {
@@ -41,7 +40,6 @@ export class HelloWorldModel extends Observable {
             theme: "light",
             startingDate: new Date('2018-11-17'),
             maxDate: new Date(),
-
             minDate: new Date('2018-09-19')
         }).then((result:any) => {
             if (result) {
@@ -53,7 +51,7 @@ export class HelloWorldModel extends Observable {
         .catch((error) => {
             console.log("Error: " + error);
         });
-    };
+    }
 
     selectDateSpinner() {
         this.modalDatetimepicker.pickDate(<PickerOptions>{
@@ -62,7 +60,25 @@ export class HelloWorldModel extends Observable {
             startingDate: new Date('2018-11-17'),
             datePickerMode: "spinner"
         }).then((result:any) => {
+            if (result) {
+                this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
+            } else {
+                this.set("date", false);
+            }
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+        });
+    }
 
+    selectDateOverlay() {
+        this.modalDatetimepicker.pickDate(<PickerOptions>{
+            title: "Configurable Title",
+            theme: "overlay",
+            startingDate: new Date('2018-11-17'),
+            maxDate: new Date(),
+            minDate: new Date('2018-09-19')
+        }).then((result:any) => {
             if (result) {
                 this.set("date", "Date is: " + result.day + "-" + result.month + "-" + result.year);
             } else {

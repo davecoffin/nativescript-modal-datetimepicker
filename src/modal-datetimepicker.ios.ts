@@ -1,8 +1,3 @@
-import * as application from "tns-core-modules/application";
-import * as frame from "tns-core-modules/ui/frame";
-import { Label } from "tns-core-modules/ui/label/";
-import { Page } from "tns-core-modules/ui/page";
-
 class ButtonHandler extends NSObject {
   public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
     picker.close();
@@ -34,7 +29,8 @@ const buttonHandler = ButtonHandler.new();
 
 let myResolve;
 let window: UIWindow;
-let effectView: UIVisualEffectView; // this view blurs the background
+let effectView: UIVisualEffectView; // this view potentially blurs the background
+let overlayView: UIView; // this view potentially overlays the background
 let pickerHolderView: UIView; // this is the view that holds the picker
 let bottomContentContainer: UIView; // this view holds the picker and the action buttons.
 // let topContentContainer: UIView; // this is the view the holds the title.
@@ -61,6 +57,7 @@ export class ModalDatetimepicker {
       myResolve = resolve;
       if (!options.type) options.type = "date";
       if (!options.theme) options.theme = "dark";
+      if (!options.overlayAlpha) options.overlayAlpha = 0.7;
 
       let startingDate = new Date();
       if (options.type === "date") {
@@ -92,51 +89,71 @@ export class ModalDatetimepicker {
       window = UIApplication.sharedApplication.keyWindow;
       const containerBounds = window.bounds;
 
-      // blur the background of the application.
-      effectView = UIVisualEffectView.alloc().init();
-      effectView.frame = CGRectMake(
-        containerBounds.origin.x,
-        containerBounds.origin.y,
-        containerBounds.size.width,
-        containerBounds.size.height + 20
-      );
-      effectView.autoresizingMask =
-        UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-      window.addSubview(effectView);
-      window.bringSubviewToFront(effectView);
-      UIView.animateWithDurationAnimations(0.4, () => {
-        let theme = UIBlurEffectStyle.Light;
-        switch (options.theme) {
-          case "extralight":
-            theme = UIBlurEffectStyle.ExtraLight;
-            break;
-          case "light":
-            theme = UIBlurEffectStyle.Light;
-            break;
-          case "regular":
-            theme = UIBlurEffectStyle.Regular;
-            break;
-          case "dark":
-            theme = UIBlurEffectStyle.Dark;
-            break;
-          case "extradark":
-            theme = UIBlurEffectStyle.ExtraDark;
-            break;
-          case "prominent":
-            theme = UIBlurEffectStyle.Prominent;
-            break;
-          default:
-            theme = UIBlurEffectStyle.Light;
-            break;
-        }
+      if (options.theme === "overlay") {
+        // overlay the background of the application.
+        overlayView = UIView.alloc().init();
+        overlayView.frame = CGRectMake(
+          containerBounds.origin.x,
+          containerBounds.origin.y,
+          containerBounds.size.width,
+          containerBounds.size.height + 20
+        );
+        overlayView.autoresizingMask =
+          UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+        window.addSubview(overlayView);
+        window.bringSubviewToFront(overlayView);
 
-        // dont display if theme is none
-        if (options.theme !== "none") {
-          effectView.effect = UIBlurEffect.effectWithStyle(theme);
-        } else {
-          effectView.effect = null;
-        }
-      });
+        UIView.animateWithDurationAnimations(0.4, () => {
+          overlayView.backgroundColor = UIColor.blackColor.colorWithAlphaComponent(
+            options.overlayAlpha
+          );
+        });
+      } else {
+        // blur the background of the application.
+        effectView = UIVisualEffectView.alloc().init();
+        effectView.frame = CGRectMake(
+          containerBounds.origin.x,
+          containerBounds.origin.y,
+          containerBounds.size.width,
+          containerBounds.size.height + 20
+        );
+        effectView.autoresizingMask =
+          UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+        window.addSubview(effectView);
+        window.bringSubviewToFront(effectView);
+        UIView.animateWithDurationAnimations(0.4, () => {
+          let theme = UIBlurEffectStyle.Light;
+          switch (options.theme) {
+            case "extralight":
+              theme = UIBlurEffectStyle.ExtraLight;
+              break;
+            case "light":
+              theme = UIBlurEffectStyle.Light;
+              break;
+            case "regular":
+              theme = UIBlurEffectStyle.Regular;
+              break;
+            case "dark":
+              theme = UIBlurEffectStyle.Dark;
+              break;
+            case "extradark":
+              theme = UIBlurEffectStyle.ExtraDark;
+              break;
+            case "prominent":
+              theme = UIBlurEffectStyle.Prominent;
+              break;
+            default:
+              break;
+          }
+
+          // dont display if theme is none
+          if (options.theme !== "none") {
+            effectView.effect = UIBlurEffect.effectWithStyle(theme);
+          } else {
+            effectView.effect = null;
+          }
+        });
+      }
 
       bottomContentContainer = UIView.alloc().init();
       bottomContentContainer.frame = CGRectMake(
@@ -290,7 +307,6 @@ export class ModalDatetimepicker {
 
       window.addSubview(bottomContentContainer);
       window.bringSubviewToFront(bottomContentContainer);
-      //   let animationOptions: UIViewAnimationOptions;
       UIView.animateWithDurationDelayOptionsAnimationsCompletion(
         0.4,
         0,
@@ -307,16 +323,18 @@ export class ModalDatetimepicker {
             titleLabel.alpha = 1;
           }
         },
-        () => {
-          //   console.dir("animation completed");
-        }
+        () => {}
       );
     });
   }
 
-  private labelFactory(text, color, shadow, size) {
+  private labelFactory(
+    text: string,
+    color: UIColor,
+    shadow: boolean,
+    size: number
+  ) {
     window = UIApplication.sharedApplication.keyWindow;
-    const containerBounds = window.bounds;
     const label = UILabel.alloc().init();
     label.text = text;
     label.font = UIFont.boldSystemFontOfSize(size);
@@ -351,12 +369,17 @@ export class ModalDatetimepicker {
     this.close(response);
   }
 
-  public close(response?) {
+  public close(response?: any) {
     if (!response) response = false;
     UIView.animateWithDurationAnimationsCompletion(
       0.3,
       () => {
-        effectView.effect = null;
+        if (effectView) {
+          effectView.effect = null;
+        }
+        if (overlayView) {
+          overlayView.backgroundColor = UIColor.clearColor;
+        }
         bottomContentContainer.transform = CGAffineTransformMakeTranslation(
           0,
           320
@@ -367,7 +390,12 @@ export class ModalDatetimepicker {
         }
       },
       () => {
-        effectView.removeFromSuperview();
+        if (effectView) {
+          effectView.removeFromSuperview();
+        }
+        if (overlayView) {
+          overlayView.removeFromSuperview();
+        }
         bottomContentContainer.removeFromSuperview();
         if (titleLabel) {
           titleLabel.removeFromSuperview();
@@ -384,6 +412,7 @@ export interface PickerOptions {
   type?: string;
   title?: string;
   theme?: string;
+  overlayAlpha?: number;
   maxDate?: Date;
   minDate?: Date;
   startingDate?: Date;
