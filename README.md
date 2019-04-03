@@ -130,6 +130,10 @@ export interface PickerOptions {
   startingMinute?: number; // Ignored on pickDate()
   startingDate?: Date; // Ignored on pickTime()
   datePickerMode?: string; // Android ONLY: set this to "spinner" to see spinner for DatePicker, other option is "calendar" (which is the default)
+  cancelLabel?: string; // iOS Only
+  doneLabel?: string; // iOS Only
+  cancelLabelColor?: Color; // iOS Only
+  doneLabelColor?: Color; // iOS Only
 }
 ```
 
