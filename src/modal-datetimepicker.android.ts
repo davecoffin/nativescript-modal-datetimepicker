@@ -25,7 +25,7 @@ export class ModalDatetimepicker {
       if (options.startingDate) startDate = options.startingDate;
 
       try {
-        let datePicker = new android.app.DatePickerDialog(
+        this.datePicker = new android.app.DatePickerDialog(
           app.android.foregroundActivity,
           new android.app.DatePickerDialog.OnDateSetListener({
             onDateSet: (view, year, monthOfYear, dayOfMonth) => {
@@ -99,6 +99,8 @@ export class ModalDatetimepicker {
 
         this.timePicker.show();
 
+        let toastMsg = "";
+
         if (options.minTime) {
           if (
             options.minTime.hour < 24 &&
@@ -110,14 +112,11 @@ export class ModalDatetimepicker {
               options.minTime.hour,
               options.minTime.minute
             );
-            android.widget.Toast.makeText(
-              app.android.foregroundActivity,
-              "Minimum Time: " +
-                options.minTime.hour +
-                ":" +
-                options.minTime.minute,
-              android.widget.Toast.LENGTH_SHORT
-            ).show();
+            toastMsg =
+              "Min Time: " +
+              options.minTime.hour +
+              ":" +
+              options.minTime.minute;
           } else {
             reject("Invalid minTime");
           }
@@ -134,17 +133,21 @@ export class ModalDatetimepicker {
               options.maxTime.hour,
               options.maxTime.minute
             );
-            android.widget.Toast.makeText(
-              app.android.foregroundActivity,
-              "Maximum Time: " +
-                options.maxTime.hour +
-                ":" +
-                options.maxTime.minute,
-              android.widget.Toast.LENGTH_SHORT
-            ).show();
+            toastMsg +=
+              " Max Time: " +
+              options.maxTime.hour +
+              ":" +
+              options.maxTime.minute;
           } else {
             reject("Invalid maxTime");
           }
+        }
+        if (toastMsg !== "") {
+          android.widget.Toast.makeText(
+            app.android.foregroundActivity,
+            toastMsg,
+            android.widget.Toast.LENGTH_LONG
+          ).show();
         }
       } catch (err) {
         reject(err);
