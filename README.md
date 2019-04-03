@@ -122,7 +122,8 @@ options conform to the following interface:
 ```ts
 export interface PickerOptions {
   title?: string; // iOS ONLY: The title to display above the picker, default hidden.
-  theme?: string; // iOS ONLY: avalible options: none, extralight, light, regular, dark, extradark and prominent.
+  theme?: string; // iOS ONLY: avalible options: none, extralight, light, regular, dark, extradark, prominent and overlay.
+  overlayAlpha?: number; // iOS ONLY: when theme is 'overlay', available options: 0.0 to 1.0
   maxDate?: Date;
   minDate?: Date;
   startingHour?: number; // Ignored on pickDate()
