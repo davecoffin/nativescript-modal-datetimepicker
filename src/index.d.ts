@@ -1,3 +1,5 @@
+import { Color } from "tns-core-modules/color";
+
 export declare class ModalDatetimepicker {
   constructor();
   pickDate(options?: PickerOptions): Promise<DateResponse>;
@@ -28,6 +30,8 @@ export interface PickerOptions {
   };
   cancelLabel?: string;
   doneLabel?: string;
+  cancelLabelColor?: Color;
+  doneLabelColor?: Color;
   datePickerMode?: string;
 }
 

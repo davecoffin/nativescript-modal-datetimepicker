@@ -2,6 +2,7 @@ import * as application from "tns-core-modules/application";
 import * as frame from "tns-core-modules/ui/frame";
 import { Label } from "tns-core-modules/ui/label/";
 import { Page } from "tns-core-modules/ui/page";
+import { Color } from "tns-core-modules/ui/frame";
 
 class ButtonHandler extends NSObject {
   public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
@@ -199,7 +200,7 @@ export class ModalDatetimepicker {
         40
       );
       cancelButton.setTitleColorForState(
-        UIColor.whiteColor,
+        (options.cancelLabelColor && options.cancelLabelColor.ios) || UIColor.whiteColor,
         UIControlState.Normal
       );
       cancelButton.titleLabel.font = UIFont.systemFontOfSize(18);
@@ -233,7 +234,7 @@ export class ModalDatetimepicker {
         40
       );
       doneButton.setTitleColorForState(
-        UIColor.colorWithRedGreenBlueAlpha(0, 0.6, 1, 1),
+        (options.doneLabelColor && options.doneLabelColor.ios) || UIColor.colorWithRedGreenBlueAlpha(0, 0.6, 1, 1),
         UIControlState.Normal
       );
       doneButton.titleLabel.font = UIFont.boldSystemFontOfSize(18);
@@ -391,6 +392,8 @@ export interface PickerOptions {
   startingMinute?: number;
   cancelLabel?: string;
   doneLabel?: string;
+  cancelLabelColor?: Color;
+  doneLabelColor?: Color;
 }
 
 export interface TimeResponse {
