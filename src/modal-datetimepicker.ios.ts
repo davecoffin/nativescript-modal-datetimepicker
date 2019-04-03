@@ -301,7 +301,9 @@ export class ModalDatetimepicker {
         );
 
         titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        titleLabel.adjustsFontForContentSizeCategory = true;
+        titleLabel.respondsToSelector("adjustsFontForContentSizeCategory")
+          ? (titleLabel.adjustsFontForContentSizeCategory = true)
+          : null;
         titleLabel.adjustsFontSizeToFitWidth = true;
         titleLabel.layer.masksToBounds = false;
         titleLabel.alpha = 0;
