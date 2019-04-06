@@ -50,6 +50,11 @@ export class ModalDatetimepicker {
             datePickerInstance.setMinDate(options.minDate.getTime());
         }
 
+        this.datePicker.setOnCancelListener(new android.content.DialogInterface.OnCancelListener({
+          onCancel: (dialog) => {
+            resolve();
+          }
+        }));
         this.datePicker.show();
       } catch (err) {
         reject(err);
