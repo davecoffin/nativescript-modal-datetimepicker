@@ -50,6 +50,12 @@ export class ModalDatetimepicker {
             datePickerInstance.setMinDate(options.minDate.getTime());
         }
 
+        this.datePicker.setOnCancelListener(new android.content.DialogInterface.OnCancelListener({
+          onCancel: () => {
+            resolve();
+          }
+        }));
+
         this.datePicker.show();
       } catch (err) {
         reject(err);
@@ -96,6 +102,12 @@ export class ModalDatetimepicker {
           minute,
           options.is24HourView
         );
+
+        this.timePicker.setOnCancelListener(new android.content.DialogInterface.OnCancelListener({
+          onCancel: () => {
+            resolve();
+          }
+        }));
 
         this.timePicker.show();
 
