@@ -1,6 +1,6 @@
 {
   "name": "nativescript-modal-datetimepicker",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A nice looking modal date time picker.",
   "main": "modal-datetimepicker",
   "typings": "index.d.ts",
@@ -108,6 +108,10 @@
     {
       "name": "Ruslan Urmeev",
       "url": "https://github.com/russelarms"
+    },
+    {
+      "name": "Sébastien JEAN",
+      "url": "https://github.com/sebj54"
     }
   ],
   "repository": {
