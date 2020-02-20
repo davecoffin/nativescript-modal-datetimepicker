@@ -1,6 +1,6 @@
 {
   "name": "nativescript-modal-datetimepicker",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A nice looking modal date time picker.",
   "main": "modal-datetimepicker",
   "typings": "index.d.ts",
@@ -112,6 +112,10 @@
     {
       "name": "Sébastien JEAN",
       "url": "https://github.com/sebj54"
+    },
+    {
+      "name": "Nicholas Fredricks",
+      "url": "https://github.com/Logikgate"
     }
   ],
   "repository": {
