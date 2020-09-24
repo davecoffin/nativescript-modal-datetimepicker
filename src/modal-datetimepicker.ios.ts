@@ -3,6 +3,7 @@ import * as frame from "tns-core-modules/ui/frame";
 import { Label } from "tns-core-modules/ui/label/";
 import { Page } from "tns-core-modules/ui/page";
 import { Color } from "tns-core-modules/ui/frame";
+import { device } from "tns-core-modules/platform";
 
 class ButtonHandler extends NSObject {
   public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
@@ -43,6 +44,10 @@ let bottomContentContainer: UIView; // this view holds the picker and the action
 let titleLabel: UILabel;
 // let minMaxLabel: UILabel;
 let datePickerView: UIDatePicker;
+
+const SUPPORT_DATE_PICKER_STYLE = parseFloat(device.os) >= 14.0;
+const SUPPORT_TEXT_COLOR = parseFloat(device.os) < 14.0;
+const DEFAULT_DATE_PICKER_STYLE = 1;
 
 export class ModalDatetimepicker {
   constructor() {}
@@ -281,6 +286,9 @@ export class ModalDatetimepicker {
       );
       datePickerView.datePickerMode =
         options.type === "date" ? UIDatePickerMode.Date : UIDatePickerMode.Time;
+      if (SUPPORT_DATE_PICKER_STYLE) {
+        (datePickerView as any).preferredDatePickerStyle = DEFAULT_DATE_PICKER_STYLE;
+      }
       datePickerView.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
       datePickerView.date = startingDate;
       if (options.minDate) datePickerView.minimumDate = options.minDate;
