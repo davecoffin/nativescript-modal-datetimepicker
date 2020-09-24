@@ -45,8 +45,8 @@ let titleLabel: UILabel;
 // let minMaxLabel: UILabel;
 let datePickerView: UIDatePicker;
 
-const SUPPORT_DATE_PICKER_STYLE = parseFloat(device.os) >= 14.0;
-const SUPPORT_TEXT_COLOR = parseFloat(device.os) < 14.0;
+const SUPPORT_DATE_PICKER_STYLE = parseFloat(device.osVersion) >= 14.0;
+const SUPPORT_TEXT_COLOR = parseFloat(device.osVersion) < 14.0;
 const DEFAULT_DATE_PICKER_STYLE = 1;
 
 export class ModalDatetimepicker {
