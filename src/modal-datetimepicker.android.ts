@@ -1,3 +1,5 @@
+/* tslint:disable */
+// 第三方的套件，在別人修正前先臨時用
 import * as app from "tns-core-modules/application";
 
 export class ModalDatetimepicker {
@@ -5,7 +7,7 @@ export class ModalDatetimepicker {
   timePicker;
   constructor() {}
 
-  public pickDate(options: PickerOptions = {}) {
+  public pickDate(options: PickerOptions = {}): Promise<DateResponse> {
     return new Promise((resolve, reject) => {
       if (
         options.startingDate &&
@@ -22,7 +24,9 @@ export class ModalDatetimepicker {
 
       // let now = Calendar.getInstance();
       let startDate = new Date();
-      if (options.startingDate) startDate = options.startingDate;
+      if (options.startingDate) {
+        startDate = options.startingDate;
+      }
 
       try {
         this.datePicker = new android.app.DatePickerDialog(
@@ -43,18 +47,22 @@ export class ModalDatetimepicker {
         );
 
         if (options.maxDate || options.minDate) {
-          let datePickerInstance = this.datePicker.getDatePicker();
-          if (options.maxDate)
+          const datePickerInstance = this.datePicker.getDatePicker();
+          if (options.maxDate) {
             datePickerInstance.setMaxDate(options.maxDate.getTime());
-          if (options.minDate)
+          }
+          if (options.minDate) {
             datePickerInstance.setMinDate(options.minDate.getTime());
+          }
         }
 
-        this.datePicker.setOnCancelListener(new android.content.DialogInterface.OnCancelListener({
-          onCancel: () => {
-            resolve();
-          }
-        }));
+        this.datePicker.setOnCancelListener(
+          new android.content.DialogInterface.OnCancelListener({
+            onCancel: () => {
+              resolve();
+            }
+          })
+        );
 
         this.datePicker.show();
       } catch (err) {
@@ -74,10 +82,10 @@ export class ModalDatetimepicker {
     }
   }
 
-  public pickTime(options: PickerOptions = {}) {
+  public pickTime(options: PickerOptions = {}): Promise<TimeResponse> {
     options.is24HourView = options.is24HourView || false;
     return new Promise((resolve, reject) => {
-      let now = java.util.Calendar.getInstance();
+      const now = java.util.Calendar.getInstance();
       const hour =
         options.startingHour !== undefined && options.startingHour >= 0
           ? +options.startingHour
@@ -103,11 +111,13 @@ export class ModalDatetimepicker {
           options.is24HourView
         );
 
-        this.timePicker.setOnCancelListener(new android.content.DialogInterface.OnCancelListener({
-          onCancel: () => {
-            resolve();
-          }
-        }));
+        this.timePicker.setOnCancelListener(
+          new android.content.DialogInterface.OnCancelListener({
+            onCancel: () => {
+              resolve();
+            }
+          })
+        );
 
         this.timePicker.show();
 
