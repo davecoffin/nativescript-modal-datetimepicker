@@ -1,13 +1,13 @@
 {
   "name": "nativescript-modal-datetimepicker",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A nice looking modal date time picker.",
   "main": "modal-datetimepicker",
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "3.0.0",
-      "ios": "3.0.0"
+      "android": "6.0.0",
+      "ios": "6.0.0"
     },
     "plugin": {
       "nan": "true",
@@ -26,9 +26,9 @@
     "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
     "plugin.link": "npm link && cd ../demo && npm link nativescript-modal-datetimepicker && cd ../src",
     "plugin.tscwatch": "npm run tsc -- -w",
-    "debug.ios": "npm i && npm run tsc && cd ../demo && tns debug ios --syncAllFiles",
-    "demo.ios": "npm i && npm run tsc && cd ../demo && tns run ios --syncAllFiles",
-    "demo.android": "npm i && npm run tsc && cd ../demo && tns run android --syncAllFiles",
+    "debug.ios": "npm i && npm run tsc && cd ../demo && tns debug ios",
+    "demo.ios": "npm i && npm run tsc && cd ../demo && tns run ios",
+    "demo.android": "npm i && npm run tsc && cd ../demo && tns run android",
     "demo.reset": "cd ../demo && rimraf platforms",
     "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-modal-datetimepicker && tns plugin add ../src",
     "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
@@ -116,6 +116,10 @@
     {
       "name": "Nicholas Fredricks",
       "url": "https://github.com/Logikgate"
+    },
+    {
+      "name": "Shelly Chen",
+      "url": "https://github.com/alonstar"
     }
   ],
   "repository": {
