@@ -1,9 +1,4 @@
-import * as application from "tns-core-modules/application";
-import * as frame from "tns-core-modules/ui/frame";
-import { Label } from "tns-core-modules/ui/label/";
-import { Page } from "tns-core-modules/ui/page";
-import { Color } from "tns-core-modules/ui/frame";
-import { device } from "tns-core-modules/platform";
+import { Application, Color, Device } from "@nativescript/core";
 
 class ButtonHandler extends NSObject {
   public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
@@ -20,16 +15,16 @@ class ButtonHandler extends NSObject {
   public static ObjCExposedMethods = {
     close: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id]
+      params: [interop.types.id, interop.types.id],
     },
     chooseDate: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id]
+      params: [interop.types.id, interop.types.id],
     },
     chooseTime: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id]
-    }
+      params: [interop.types.id, interop.types.id],
+    },
   };
 }
 const buttonHandler = ButtonHandler.new();
@@ -45,8 +40,8 @@ let titleLabel: UILabel;
 // let minMaxLabel: UILabel;
 let datePickerView: UIDatePicker;
 
-const SUPPORT_DATE_PICKER_STYLE = parseFloat(device.osVersion) >= 14.0;
-const SUPPORT_TEXT_COLOR = parseFloat(device.osVersion) < 14.0;
+const SUPPORT_DATE_PICKER_STYLE = parseFloat(Device.osVersion) >= 14.0;
+const SUPPORT_TEXT_COLOR = parseFloat(Device.osVersion) < 14.0;
 const DEFAULT_DATE_PICKER_STYLE = 1;
 
 export class ModalDatetimepicker {
@@ -182,7 +177,7 @@ export class ModalDatetimepicker {
       );
 
       pickerHolderView = UIView.alloc().init();
-      const appearance = application.systemAppearance();
+      const appearance = Application.systemAppearance();
       if (appearance) {
         pickerHolderView.backgroundColor =
           appearance === "dark" ? UIColor.blackColor : UIColor.whiteColor;
@@ -380,7 +375,7 @@ export class ModalDatetimepicker {
     const response: DateResponse = {
       day: pickedDate.getDate(),
       month: pickedDate.getMonth() + 1,
-      year: pickedDate.getFullYear()
+      year: pickedDate.getFullYear(),
     };
     this.close(response);
   }
@@ -389,7 +384,7 @@ export class ModalDatetimepicker {
     const pickedDate = new Date(datePickerView.date);
     const response: TimeResponse = {
       hour: pickedDate.getHours(),
-      minute: pickedDate.getMinutes()
+      minute: pickedDate.getMinutes(),
     };
     this.close(response);
   }

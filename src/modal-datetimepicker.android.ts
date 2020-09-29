@@ -1,6 +1,5 @@
 /* tslint:disable */
-// 第三方的套件，在別人修正前先臨時用
-import * as app from "tns-core-modules/application";
+import { Application } from "@nativescript/core";
 
 export class ModalDatetimepicker {
   datePicker: android.app.DatePickerDialog;
@@ -30,16 +29,16 @@ export class ModalDatetimepicker {
 
       try {
         this.datePicker = new android.app.DatePickerDialog(
-          app.android.foregroundActivity,
+          Application.android.foregroundActivity,
           new android.app.DatePickerDialog.OnDateSetListener({
             onDateSet: (view, year, monthOfYear, dayOfMonth) => {
               const date: DateResponse = {
                 day: dayOfMonth,
                 month: ++monthOfYear,
-                year: year
+                year: year,
               };
               resolve(date);
-            }
+            },
           }),
           startDate.getFullYear(),
           startDate.getMonth(),
@@ -60,7 +59,7 @@ export class ModalDatetimepicker {
           new android.content.DialogInterface.OnCancelListener({
             onCancel: () => {
               resolve();
-            }
+            },
           })
         );
 
@@ -96,15 +95,15 @@ export class ModalDatetimepicker {
           : now.get(java.util.Calendar.MINUTE);
       try {
         this.timePicker = new android.app.TimePickerDialog(
-          app.android.foregroundActivity,
+          Application.android.foregroundActivity,
           new android.app.TimePickerDialog.OnTimeSetListener({
             onTimeSet: (view, hourOfDay, minute) => {
               const time: TimeResponse = {
                 hour: hourOfDay,
-                minute: minute
+                minute: minute,
               };
               resolve(time);
-            }
+            },
           }),
           hour,
           minute,
@@ -115,7 +114,7 @@ export class ModalDatetimepicker {
           new android.content.DialogInterface.OnCancelListener({
             onCancel: () => {
               resolve();
-            }
+            },
           })
         );
 
@@ -166,7 +165,7 @@ export class ModalDatetimepicker {
         }
         if (toastMsg !== "") {
           android.widget.Toast.makeText(
-            app.android.foregroundActivity,
+            Application.android.foregroundActivity,
             toastMsg,
             android.widget.Toast.LENGTH_LONG
           ).show();

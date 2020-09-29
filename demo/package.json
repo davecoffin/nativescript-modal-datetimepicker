@@ -1,26 +1,17 @@
 {
-  "nativescript": {
-    "id": "org.nativescript.demo",
-    "tns-android": {
-      "version": "6.5.0"
-    },
-    "tns-ios": {
-      "version": "6.5.0"
-    }
-  },
   "main": "app.js",
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "nativescript-modal-datetimepicker": "../src",
-    "@nativescript/core": "~6.5.0",
-    "@nativescript/theme": "~2.3.0"
+    "@nativescript/core": "7.0.0",
+    "@nativescript/theme": "~2.3.0",
+    "@nativescript/webpack": "3.0.0"
   },
   "devDependencies": {
-    "nativescript-dev-webpack": "~1.5.0",
-    "tns-platform-declarations": "~6.5.0",
-    "typescript": "~3.8.3"
+    "typescript": "3.9.7",
+    "@nativescript/types": "7.0.0"
   },
   "gitHead": "20a65d338ae8f8911087ab6615b89363f864b07b",
   "readme": "NativeScript Application"

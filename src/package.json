@@ -1,6 +1,6 @@
 {
   "name": "nativescript-modal-datetimepicker",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "A nice looking modal date time picker.",
   "main": "modal-datetimepicker",
   "typings": "index.d.ts",
@@ -133,17 +133,16 @@
   "homepage": "https://github.com/davecoffin/nativescript-modal-datetimepicker",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "husky": "^0.14.3",
-    "lint-staged": "^7.0.4",
-    "prettier": "^1.13.2",
-    "prompt": "^1.0.0",
-    "rimraf": "^2.7.1",
-    "semver": "^5.5.0",
-    "tns-core-modules": "^6.5.18",
-    "tns-platform-declarations": "^6.5.15",
-    "tslint": "^5.20.1",
-    "typescript": "~2.3.0"
+    "@nativescript/core": "^7.0.3",
+    "@nativescript/types": "~7.0.3",
+    "@nativescript/webpack": "^3.0.4",
+    "lint-staged": "^7.3.0",
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.0.0",
+    "ts-patch": "^1.3.0",
+    "tslint": "^6.1.3",
+    "typescript": "~3.9.0"
   },
-  "dependencies": {},
   "bootstrapper": "nativescript-plugin-seed"
 }

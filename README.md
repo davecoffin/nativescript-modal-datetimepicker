@@ -22,9 +22,11 @@ This plugin is a wrapper around `android.app.DatePickerDialog` for Android, and 
 
 ## Installation
 
-```javascript
-tns plugin add nativescript-modal-datetimepicker
-```
+### NativeScript 7+:
+Run `ns plugin add nativescript-modal-datetimepicker`
+
+### NativeScript below 7:
+Run `tns plugin add nativescript-modal-datetimepicker@1.2.3`
 
 ## Configuration
 
