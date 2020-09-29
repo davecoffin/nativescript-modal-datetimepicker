@@ -290,6 +290,7 @@ export class ModalDatetimepicker {
       if (options.minDate) datePickerView.minimumDate = options.minDate;
       if (options.maxDate) datePickerView.maximumDate = options.maxDate;
       pickerHolderView.addSubview(datePickerView);
+      datePickerView.center = pickerHolderView.center;
       pickerHolderView.bringSubviewToFront(datePickerView);
 
       bottomContentContainer.addSubview(pickerHolderView);

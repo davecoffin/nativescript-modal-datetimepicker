@@ -1,20 +1,35 @@
 {
-  "main": "app.js",
+  "name": "@nativescript/template-hello-world-ts",
+  "main": "main.js",
+  "version": "7.0.3",
+  "author": "NativeScript Team <oss@nativescript.org>",
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "nativescript",
+    "mobile",
+    "{N}",
+    "template"
+  ],
   "repository": "<fill-your-repository-here>",
+  "bugs": {
+    "url": "https://github.com/NativeScript/NativeScript/issues"
+  },
+  "homepage": "https://github.com/NativeScript/nativescript-app-templates",
   "dependencies": {
     "@nativescript/core": "^7.0.8",
     "@nativescript/theme": "~2.3.0",
-    "@nativescript/webpack": "3.0.0",
     "nativescript-modal-datetimepicker": "../src"
   },
   "devDependencies": {
-    "@nativescript/android": "7.0.0",
     "@nativescript/ios": "7.0.0",
-    "@nativescript/types": "7.0.0",
-    "typescript": "3.9.7"
+    "@nativescript/types": "~7.0.0",
+    "@nativescript/webpack": "~3.0.0",
+    "typescript": "~3.9.0"
   },
-  "gitHead": "20a65d338ae8f8911087ab6615b89363f864b07b",
+  "private": "true",
   "readme": "NativeScript Application"
 }
