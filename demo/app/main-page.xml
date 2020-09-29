@@ -1,15 +1,15 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page" xmlns:ui="nativescript-modal-datetimepicker" style="margin-top: -20">
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page" xmlns:ui="nativescript-modal-datetimepicker" ios.style="margin-top: -20">
+    <ActionBar class="action-bar" title="Modal Date Timepicker"></ActionBar>
     <GridLayout rows="" columns="">
         <Image src="~/landscape.jpg" stretch="aspectFill" />
         <StackLayout class="p-20">
-            <Button text="Pick a Date (with limited year range)" tap="{{ selectDate }}" style="margin-top: 100;" class="btn btn-primary btn-active"/>
-            <Button text="Pick a Date" tap="{{ selectDateSpinner }}" style="margin-top: 20;" class="btn btn-primary btn-active"/>
-            <Button text="Pick a Time" tap="{{ selectTime }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
-            <Button text="Pick a Date (Overlay)" tap="{{ selectDateOverlay }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
-            <Button text="Close programatically" tap="{{ closeProgramatically }}" style="margin-top: 20; margin-bottom: 100;" class="btn btn-primary btn-active"/>
+            <Button text="Pick a Date (with limited year range)" tap="{{ selectDate }}" style="margin-top: 100;" class="btn -primary -active"/>
+            <Button text="Pick a Date" tap="{{ selectDateSpinner }}" style="margin-top: 20;" class="btn -primary -active"/>
+            <Button text="Pick a Time" tap="{{ selectTime }}" style="margin-top: 20; margin-bottom: 100;" class="btn -primary -active"/>
+            <Button text="Pick a Date (Overlay)" tap="{{ selectDateOverlay }}" style="margin-top: 20; margin-bottom: 100;" class="btn -primary -active"/>
+            <Button text="Close programatically" tap="{{ closeProgramatically }}" style="margin-top: 20; margin-bottom: 100;" class="btn -primary -active"/>
             <Label visibility="{{ date ? 'visible' : 'collapsed' }}" text="{{date}}" style="color: white; text-align: center; font-size: 20; font-weight: bold;" />
             <Label visibility="{{ time ? 'visible' : 'collapsed' }}" text="{{time}}" style="color: white; text-align: center; font-size: 20; font-weight: bold;" />
         </StackLayout>
-
     </GridLayout>
 </Page>

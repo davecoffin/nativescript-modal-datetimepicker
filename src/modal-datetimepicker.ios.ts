@@ -1,5 +1,6 @@
 import { Application, Color, Device } from "@nativescript/core";
 
+@NativeClass()
 class ButtonHandler extends NSObject {
   public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
     picker.close();

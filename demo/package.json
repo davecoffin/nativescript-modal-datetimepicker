@@ -4,14 +4,16 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
-    "nativescript-modal-datetimepicker": "../src",
-    "@nativescript/core": "7.0.0",
+    "@nativescript/core": "^7.0.8",
     "@nativescript/theme": "~2.3.0",
-    "@nativescript/webpack": "3.0.0"
+    "@nativescript/webpack": "3.0.0",
+    "nativescript-modal-datetimepicker": "../src"
   },
   "devDependencies": {
-    "typescript": "3.9.7",
-    "@nativescript/types": "7.0.0"
+    "@nativescript/android": "7.0.0",
+    "@nativescript/ios": "7.0.0",
+    "@nativescript/types": "7.0.0",
+    "typescript": "3.9.7"
   },
   "gitHead": "20a65d338ae8f8911087ab6615b89363f864b07b",
   "readme": "NativeScript Application"

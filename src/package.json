@@ -33,7 +33,8 @@
     "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-modal-datetimepicker && tns plugin add ../src",
     "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
     "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "setup": "npm i && ts-patch install"
   },
   "lint-staged": {
     "*.ts": [
