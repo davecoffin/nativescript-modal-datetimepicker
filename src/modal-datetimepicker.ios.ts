@@ -178,7 +178,7 @@ export class ModalDatetimepicker {
       );
 
       pickerHolderView = UIView.alloc().init();
-      const appearance = Application.systemAppearance();
+      const appearance = Application.ios.systemAppearance;
       if (appearance) {
         pickerHolderView.backgroundColor =
           appearance === "dark" ? UIColor.blackColor : UIColor.whiteColor;

@@ -1,4 +1,4 @@
-import { Color } from "tns-core-modules/color";
+import { Color } from "@nativescript/core/color";
 
 export declare class ModalDatetimepicker {
   constructor();
