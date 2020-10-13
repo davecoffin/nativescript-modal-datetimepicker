@@ -1,6 +1,6 @@
 {
-  "name": "nativescript-modal-datetimepicker",
-  "version": "2.0.1",
+  "name": "@planbook/nativescript-modal-datetimepicker",
+  "version": "1.0.0",
   "description": "A nice looking modal date time picker.",
   "main": "modal-datetimepicker",
   "typings": "index.d.ts",
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "tsc": "tsc -skipLibCheck",
-    "build": "npm i && tsc",
+    "build": "npm i && ts-patch install && npm run tsc",
     "postclone": "npm i && node scripts/postclone.js && cd ../demo && npm i && cd ../src && npm run plugin.link",
     "test.android": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build android && tns test android --justlaunch",
     "test.ios": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build ios && tns test ios --justlaunch",
@@ -57,85 +57,35 @@
     "datetimepicker",
     "datetime picker"
   ],
-  "author": {
-    "name": "Dave Coffin",
-    "email": "dave@davecoffin.com"
-  },
+  "author": "Dave Coffin <dave@davecoffin.com>",
   "contributors": [
-    {
-      "name": "MultiShiv19",
-      "email": "sp@shiv19.com",
-      "url": "https://shiv19.com"
-    },
-    {
-      "name": "Jeremiah Ogbomo",
-      "email": "jeremiahogbomo@gmail.com",
-      "url": "https://github.com/jogboms"
-    },
-    {
-      "name": "Brad Martin",
-      "email": "bradwaynemartin@gmail.com",
-      "url": "https://github.com/bradmartin"
-    },
-    {
-      "name": "Luke Curran",
-      "email": "luke@pepper.me",
-      "url": "https://github.com/MCurran16"
-    },
-    {
-      "name": "Hosikiti",
-      "url": "https://github.com/hosikiti"
-    },
-    {
-      "name": "Kevin Beckers",
-      "url": "https://github.com/KevinBeckers"
-    },
-    {
-      "name": "Jack Thomson",
-      "url": "https://github.com/JackThomson2"
-    },
-    {
-      "name": "Pete Morgan",
-      "url": "https://github.com/pedromorgan"
-    },
-    {
-      "name": "Gustavo Silva Teles",
-      "url": "https://github.com/gustavost26"
-    },
-    {
-      "name": "quen09t",
-      "url": "https://github.com/quen09t"
-    },
-    {
-      "name": "Ruslan Urmeev",
-      "url": "https://github.com/russelarms"
-    },
-    {
-      "name": "Sébastien JEAN",
-      "url": "https://github.com/sebj54"
-    },
-    {
-      "name": "Nicholas Fredricks",
-      "url": "https://github.com/Logikgate"
-    },
-    {
-      "name": "Shelly Chen",
-      "url": "https://github.com/alonstar"
-    }
+    "MultiShiv19 <sp@shiv19.com> (https://shiv19.com)",
+    "Jeremiah Ogbomo <jeremiahogbomo@gmail.com> (https://github.com/jogboms)",
+    "Brad Martin <bradwaynemartin@gmail.com> (https://github.com/bradmartin)",
+    "Luke Curran <luke@pepper.me> (https://github.com/MCurran16)",
+    "Hosikiti (https://github.com/hosikiti)",
+    "Kevin Beckers (https://github.com/KevinBeckers)",
+    "Jack Thomson (https://github.com/JackThomson2)",
+    "Pete Morgan (https://github.com/pedromorgan)",
+    "Gustavo Silva Teles (https://github.com/gustavost26)",
+    "quen09t (https://github.com/quen09t)",
+    "Ruslan Urmeev (https://github.com/russelarms)",
+    "Sébastien JEAN (https://github.com/sebj54)",
+    "Nicholas Fredricks (https://github.com/Logikgate)",
+    "Shelly Chen (https://github.com/alonstar)"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker"
+    "url": "git+https://github.com/davecoffin/nativescript-modal-datetimepicker.git"
   },
   "bugs": {
     "url": "https://github.com/davecoffin/nativescript-modal-datetimepicker/issues"
   },
   "license": "Apache-2.0",
   "homepage": "https://github.com/davecoffin/nativescript-modal-datetimepicker",
-  "readmeFilename": "README.md",
   "devDependencies": {
-    "@nativescript/core": "^7.0.3",
-    "@nativescript/types": "~7.0.3",
+    "@nativescript/core": "^7.0.11",
+    "@nativescript/types": "^7.0.4",
     "@nativescript/webpack": "^3.0.4",
     "lint-staged": "^7.3.0",
     "prettier": "^2.1.2",

@@ -7,7 +7,7 @@ ROOT_DIR=..;
 PUBLISH=--publish
 
 install(){
-    npm i
+    npm i ts-patch -D
 }
 
 pack() {
