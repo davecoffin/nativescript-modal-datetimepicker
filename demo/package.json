@@ -20,13 +20,14 @@
   },
   "homepage": "https://github.com/NativeScript/nativescript-app-templates",
   "dependencies": {
-    "@nativescript/core": "^7.0.8",
+    "@nativescript/core": "~7.3.0",
     "@nativescript/theme": "~2.3.0",
     "nativescript-modal-datetimepicker": "../src"
   },
   "devDependencies": {
-    "@nativescript/ios": "7.0.0",
-    "@nativescript/types": "~7.0.0",
+    "@nativescript/android": "~7.0.1",
+    "@nativescript/ios": "~7.2.0",
+    "@nativescript/types": "~7.3.0",
     "@nativescript/webpack": "~3.0.0",
     "typescript": "~3.9.0"
   },

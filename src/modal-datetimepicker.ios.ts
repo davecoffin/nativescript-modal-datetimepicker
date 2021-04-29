@@ -1,67 +1,96 @@
 import { Application, Color, Device } from "@nativescript/core";
 
 @NativeClass()
-class ButtonHandler extends NSObject {
-  public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
-    picker.close();
+class ButtonHandlerImpl extends NSObject {
+  private _owner: WeakRef<ModalDatetimepicker>;
+
+  public static initWithOwner(owner: WeakRef<ModalDatetimepicker>) {
+    const handler = ButtonHandlerImpl.new() as ButtonHandlerImpl;
+    handler._owner = owner;
+    return handler;
   }
 
-  public chooseDate(nativeButton: UIButton, nativeEvent: _UIEvent) {
-    picker.chooseDate();
+  public close(nativeButton: UIButton) {
+    if (this._owner) {
+      const owner = this._owner.get();
+      if (owner) {
+          owner.close();
+      }
+    }
   }
-  public chooseTime(nativeButton: UIButton, nativeEvent: _UIEvent) {
-    picker.chooseTime();
+
+  public chooseDate(nativeButton: UIButton) {
+    if (this._owner) {
+      const owner = this._owner.get();
+      if (owner) {
+          owner.chooseDate();
+      }
+    }
+  }
+
+  public chooseTime(nativeButton: UIButton) {
+    if (this._owner) {
+      const owner = this._owner.get();
+      if (owner) {
+          owner.chooseTime();
+      }
+    }
   }
 
   public static ObjCExposedMethods = {
     close: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
     chooseDate: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
     chooseTime: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
   };
 }
-const buttonHandler = ButtonHandler.new();
-
-let myResolve;
-let window: UIWindow;
-let effectView: UIVisualEffectView; // this view potentially blurs the background
-let overlayView: UIView; // this view potentially overlays the background
-let pickerHolderView: UIView; // this is the view that holds the picker
-let bottomContentContainer: UIView; // this view holds the picker and the action buttons.
-// let topContentContainer: UIView; // this is the view the holds the title.
-let titleLabel: UILabel;
-// let minMaxLabel: UILabel;
-let datePickerView: UIDatePicker;
 
 const SUPPORT_DATE_PICKER_STYLE = parseFloat(Device.osVersion) >= 14.0;
 const SUPPORT_TEXT_COLOR = parseFloat(Device.osVersion) < 14.0;
 const DEFAULT_DATE_PICKER_STYLE = 1;
 
 export class ModalDatetimepicker {
+  private myResolve: (value: any) => void;
+  private window: UIWindow;
+  private effectView: UIVisualEffectView; // this view potentially blurs the background
+  private overlayView: UIView; // this view potentially overlays the background
+  // private pickerHolderView: UIView; // this is the view that holds the picker
+  private bottomContentContainer: UIView; // this view holds the picker and the action buttons.
+  // private topContentContainer: UIView; // this is the view the holds the title.
+  private titleLabel: UILabel;
+  // private minMaxLabel: UILabel;
+  private datePickerView: UIDatePicker;
+
+  private _buttonHandler: ButtonHandlerImpl;
+
   constructor() {}
 
   public pickDate(options: PickerOptions = {}) {
     if (!options) options = {};
     options.type = "date";
-    return this.show(options);
+    return this.show(options) as Promise<DateResponse>;
   }
   public pickTime(options: PickerOptions = {}) {
     if (!options) options = {};
     options.type = "time";
-    return this.show(options);
+    return this.show(options) as Promise<TimeResponse>;
   }
 
   private show(options: PickerOptions = {}) {
+    const buttonHandler = ButtonHandlerImpl.initWithOwner(new WeakRef(this));
+
+    this._buttonHandler = buttonHandler;
+
     return new Promise((resolve, reject) => {
-      myResolve = resolve;
+      this.myResolve = resolve;
       if (!options.type) options.type = "date";
       if (!options.theme) options.theme = "dark";
       if (!options.overlayAlpha) options.overlayAlpha = 0.7;
@@ -93,41 +122,41 @@ export class ModalDatetimepicker {
       if (options.maxDate && typeof options.maxDate.getMonth !== "function") {
         reject("maxDate must be a Date.");
       }
-      window = UIApplication.sharedApplication.keyWindow;
-      const containerBounds = window.bounds;
+      this.window = UIApplication.sharedApplication.keyWindow;
+      const containerBounds = this.window.bounds;
 
       if (options.theme === "overlay") {
         // overlay the background of the application.
-        overlayView = UIView.alloc().init();
-        overlayView.frame = CGRectMake(
+        this.overlayView = UIView.alloc().init();
+        this.overlayView.frame = CGRectMake(
           containerBounds.origin.x,
           containerBounds.origin.y,
           containerBounds.size.width,
           containerBounds.size.height + 20
         );
-        overlayView.autoresizingMask =
+        this.overlayView.autoresizingMask =
           UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-        window.addSubview(overlayView);
-        window.bringSubviewToFront(overlayView);
+        this.window.addSubview(this.overlayView);
+        this.window.bringSubviewToFront(this.overlayView);
 
         UIView.animateWithDurationAnimations(0.4, () => {
-          overlayView.backgroundColor = UIColor.blackColor.colorWithAlphaComponent(
+          this.overlayView.backgroundColor = UIColor.blackColor.colorWithAlphaComponent(
             options.overlayAlpha
           );
         });
       } else {
         // blur the background of the application.
-        effectView = UIVisualEffectView.alloc().init();
-        effectView.frame = CGRectMake(
+        this.effectView = UIVisualEffectView.alloc().init();
+        this.effectView.frame = CGRectMake(
           containerBounds.origin.x,
           containerBounds.origin.y,
           containerBounds.size.width,
           containerBounds.size.height + 20
         );
-        effectView.autoresizingMask =
+        this.effectView.autoresizingMask =
           UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-        window.addSubview(effectView);
-        window.bringSubviewToFront(effectView);
+        this.window.addSubview(this.effectView);
+        this.window.bringSubviewToFront(this.effectView);
         UIView.animateWithDurationAnimations(0.4, () => {
           let theme = UIBlurEffectStyle.Light;
           switch (options.theme) {
@@ -155,29 +184,29 @@ export class ModalDatetimepicker {
 
           // dont display if theme is none
           if (options.theme !== "none") {
-            effectView.effect = UIBlurEffect.effectWithStyle(theme);
+            this.effectView.effect = UIBlurEffect.effectWithStyle(theme);
           } else {
-            effectView.effect = null;
+            this.effectView.effect = null;
           }
         });
       }
 
-      bottomContentContainer = UIView.alloc().init();
-      bottomContentContainer.frame = CGRectMake(
+      this.bottomContentContainer = UIView.alloc().init();
+      this.bottomContentContainer.frame = CGRectMake(
         10,
         containerBounds.size.height - 320,
         containerBounds.size.width - 20,
         310
       );
-      bottomContentContainer.autoresizingMask =
+      this.bottomContentContainer.autoresizingMask =
         UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleWidth;
-      bottomContentContainer.autoresizesSubviews = true;
-      bottomContentContainer.transform = CGAffineTransformMakeTranslation(
+      this.bottomContentContainer.autoresizesSubviews = true;
+      this.bottomContentContainer.transform = CGAffineTransformMakeTranslation(
         0,
         320
       );
 
-      pickerHolderView = UIView.alloc().init();
+      const pickerHolderView = UIView.alloc().init();
       const appearance = Application.systemAppearance();
       if (appearance) {
         pickerHolderView.backgroundColor =
@@ -274,75 +303,75 @@ export class ModalDatetimepicker {
       buttonContainer.addSubview(doneButton);
       buttonContainer.bringSubviewToFront(doneButton);
 
-      bottomContentContainer.addSubview(buttonContainer);
-      bottomContentContainer.bringSubviewToFront(buttonContainer);
+      this.bottomContentContainer.addSubview(buttonContainer);
+      this.bottomContentContainer.bringSubviewToFront(buttonContainer);
 
-      datePickerView = UIDatePicker.alloc().initWithFrame(
+      this.datePickerView = UIDatePicker.alloc().initWithFrame(
         CGRectMake(0, 0, containerBounds.size.width - 20, 250)
       );
-      datePickerView.datePickerMode =
+      this.datePickerView.datePickerMode =
         options.type === "date" ? UIDatePickerMode.Date : UIDatePickerMode.Time;
       if (SUPPORT_DATE_PICKER_STYLE) {
-        (datePickerView as any).preferredDatePickerStyle = DEFAULT_DATE_PICKER_STYLE;
+        (this.datePickerView as any).preferredDatePickerStyle = DEFAULT_DATE_PICKER_STYLE;
       }
-      datePickerView.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
-      datePickerView.date = startingDate;
-      if (options.minDate) datePickerView.minimumDate = options.minDate;
-      if (options.maxDate) datePickerView.maximumDate = options.maxDate;
-      pickerHolderView.addSubview(datePickerView);
-      datePickerView.center = pickerHolderView.center;
-      pickerHolderView.bringSubviewToFront(datePickerView);
+      this.datePickerView.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+      this.datePickerView.date = startingDate;
+      if (options.minDate) this.datePickerView.minimumDate = options.minDate;
+      if (options.maxDate) this.datePickerView.maximumDate = options.maxDate;
+      pickerHolderView.addSubview(this.datePickerView);
+      this.datePickerView.center = pickerHolderView.center;
+      pickerHolderView.bringSubviewToFront(this.datePickerView);
 
-      bottomContentContainer.addSubview(pickerHolderView);
-      bottomContentContainer.bringSubviewToFront(pickerHolderView);
+      this.bottomContentContainer.addSubview(pickerHolderView);
+      this.bottomContentContainer.bringSubviewToFront(pickerHolderView);
 
       // Only if title is set
       if (options.title) {
-        titleLabel = this.labelFactory(
+        this.titleLabel = this.labelFactory(
           options.title,
           UIColor.whiteColor,
           true,
           25
         );
-        titleLabel.textAlignment = NSTextAlignment.Center;
-        titleLabel.frame = CGRectMake(
+        this.titleLabel.textAlignment = NSTextAlignment.Center;
+        this.titleLabel.frame = CGRectMake(
           0,
           20,
           containerBounds.size.width,
           containerBounds.size.height - 360
         );
 
-        titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        titleLabel.respondsToSelector("adjustsFontForContentSizeCategory")
-          ? (titleLabel.adjustsFontForContentSizeCategory = true)
+        this.titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        this.titleLabel.respondsToSelector("adjustsFontForContentSizeCategory")
+          ? (this.titleLabel.adjustsFontForContentSizeCategory = true)
           : null;
-        titleLabel.adjustsFontSizeToFitWidth = true;
-        titleLabel.layer.masksToBounds = false;
-        titleLabel.alpha = 0;
-        titleLabel.autoresizingMask =
+        this.titleLabel.adjustsFontSizeToFitWidth = true;
+        this.titleLabel.layer.masksToBounds = false;
+        this.titleLabel.alpha = 0;
+        this.titleLabel.autoresizingMask =
           UIViewAutoresizing.FlexibleHeight |
           UIViewAutoresizing.FlexibleTopMargin |
           UIViewAutoresizing.FlexibleWidth;
-        window.addSubview(titleLabel);
-        window.bringSubviewToFront(titleLabel);
+        this.window.addSubview(this.titleLabel);
+        this.window.bringSubviewToFront(this.titleLabel);
       }
 
-      window.addSubview(bottomContentContainer);
-      window.bringSubviewToFront(bottomContentContainer);
+      this.window.addSubview(this.bottomContentContainer);
+      this.window.bringSubviewToFront(this.bottomContentContainer);
       UIView.animateWithDurationDelayOptionsAnimationsCompletion(
         0.4,
         0,
         UIViewAnimationOptions.CurveEaseOut,
         () => {
-          bottomContentContainer.transform = CGAffineTransformMakeTranslation(
+          this.bottomContentContainer.transform = CGAffineTransformMakeTranslation(
             0,
             0
           );
 
           // Only if title is set
           if (options.title) {
-            titleLabel.transform = CGAffineTransformMakeScale(1, 1);
-            titleLabel.alpha = 1;
+            this.titleLabel.transform = CGAffineTransformMakeScale(1, 1);
+            this.titleLabel.alpha = 1;
           }
         },
         () => {}
@@ -356,7 +385,7 @@ export class ModalDatetimepicker {
     shadow: boolean,
     size: number
   ) {
-    window = UIApplication.sharedApplication.keyWindow;
+    this.window = UIApplication.sharedApplication.keyWindow;
     const label = UILabel.alloc().init();
     label.text = text;
     label.font = UIFont.boldSystemFontOfSize(size);
@@ -373,7 +402,7 @@ export class ModalDatetimepicker {
   }
 
   public chooseDate() {
-    const pickedDate = new Date(datePickerView.date);
+    const pickedDate = new Date(this.datePickerView.date);
     const response: DateResponse = {
       day: pickedDate.getDate(),
       month: pickedDate.getMonth() + 1,
@@ -383,7 +412,7 @@ export class ModalDatetimepicker {
   }
 
   public chooseTime() {
-    const pickedDate = new Date(datePickerView.date);
+    const pickedDate = new Date(this.datePickerView.date);
     const response: TimeResponse = {
       hour: pickedDate.getHours(),
       minute: pickedDate.getMinutes(),
@@ -396,39 +425,46 @@ export class ModalDatetimepicker {
     UIView.animateWithDurationAnimationsCompletion(
       0.3,
       () => {
-        if (effectView) {
-          effectView.effect = null;
+        if (this.effectView) {
+          this.effectView.effect = null;
         }
-        if (overlayView) {
-          overlayView.backgroundColor = UIColor.clearColor;
+        if (this.overlayView) {
+          this.overlayView.backgroundColor = UIColor.clearColor;
         }
-        bottomContentContainer.transform = CGAffineTransformMakeTranslation(
+        this.bottomContentContainer.transform = CGAffineTransformMakeTranslation(
           0,
           320
         );
-        if (titleLabel) {
-          titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
-          titleLabel.alpha = 0;
+        if (this.titleLabel) {
+          this.titleLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
+          this.titleLabel.alpha = 0;
         }
       },
       () => {
-        if (effectView) {
-          effectView.removeFromSuperview();
+        if (this.effectView) {
+          this.effectView.removeFromSuperview();
         }
-        if (overlayView) {
-          overlayView.removeFromSuperview();
+        if (this.overlayView) {
+          this.overlayView.removeFromSuperview();
         }
-        bottomContentContainer.removeFromSuperview();
-        if (titleLabel) {
-          titleLabel.removeFromSuperview();
+        this.bottomContentContainer.removeFromSuperview();
+        if (this.titleLabel) {
+          this.titleLabel.removeFromSuperview();
         }
-        myResolve(response);
+
+        this.myResolve(response);
+        // Release native objects for gc
+        this._buttonHandler = null;
+        this.titleLabel = null;
+        this.overlayView = null;
+        this.effectView = null;
+        this.bottomContentContainer = null;
+        this.window = null;
+        this.datePickerView = null;
       }
     );
   }
 }
-
-const picker = new ModalDatetimepicker();
 
 export interface PickerOptions {
   type?: string;
