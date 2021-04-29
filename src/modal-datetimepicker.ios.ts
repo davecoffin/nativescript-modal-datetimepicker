@@ -2,29 +2,30 @@ import { Application, Color, Device } from "@nativescript/core";
 
 @NativeClass()
 class ButtonHandler extends NSObject {
-  public close(nativeButton: UIButton, nativeEvent: _UIEvent) {
+  public close(nativeButton: UIButton) {
     picker.close();
   }
 
-  public chooseDate(nativeButton: UIButton, nativeEvent: _UIEvent) {
+  public chooseDate(nativeButton: UIButton) {
     picker.chooseDate();
   }
-  public chooseTime(nativeButton: UIButton, nativeEvent: _UIEvent) {
+
+  public chooseTime(nativeButton: UIButton) {
     picker.chooseTime();
   }
 
   public static ObjCExposedMethods = {
     close: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
     chooseDate: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
     chooseTime: {
       returns: interop.types.void,
-      params: [interop.types.id, interop.types.id],
+      params: [interop.types.id],
     },
   };
 }
